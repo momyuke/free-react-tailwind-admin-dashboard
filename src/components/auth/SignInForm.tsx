@@ -1,6 +1,4 @@
-import { User } from '@/core/domain';
 import { useFetchDispatch } from '@/core/hooks/useFetchDispatch';
-import { useUserStore } from '@/core/stores/userStore';
 import { FormEvent, useCallback, useState } from "react";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
@@ -14,17 +12,17 @@ export default function SignInForm() {
   /** TODO: 
    * need to be updated according to API update
    */
-  const { login } = useUserStore();
+  // const { login } = useUserStore();
   const onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget)
     console.log(data);
   }, [])
 
-  const mantap: User = {
-    password: '',
-    username: ''
-  }
+  // const mantap: User = {
+  //   password: '',
+  //   username: ''
+  // }
 
   useFetchDispatch(() => {
     // login(mantap)
