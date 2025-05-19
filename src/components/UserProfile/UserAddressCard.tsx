@@ -1,8 +1,8 @@
-import { useModal } from "../../hooks/useModal";
-import { Modal } from "../ui/modal";
-import Button from "../ui/button/Button";
+import { useModal } from "../../core/hooks/useModal";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
+import Button from "../ui/button/Button";
+import { Modal } from "../ui/modal";
 
 export default function UserAddressCard() {
   const { isOpen, openModal, closeModal } = useModal();
