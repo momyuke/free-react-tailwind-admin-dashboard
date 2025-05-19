@@ -11,6 +11,7 @@ export const useFetchDispatch = (fn: Function, deps: any[], options: UseFetchDis
         if (!didMountRef.current && options.componentDidMounted) {
             fn()
             didMountRef.current = true;
+            return;
         };
         if (options.componentDidUpdate) fn();
     }, deps)

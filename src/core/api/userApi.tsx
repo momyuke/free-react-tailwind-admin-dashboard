@@ -1,8 +1,9 @@
 import { axiosApi } from "@/core/api";
-import { User } from "@/core/domain";
+import { ApiResponse, AuthCredential, User } from "@/core/domain";
 
-const USER = '/user';
 
-export const loginApi = async (user: User) => {
-    return await axiosApi.post(`${USER}/login`, user);
+export const loginApi = async (authCredential: AuthCredential): Promise<User> => {
+    const result = await axiosApi.post('/auth/login', authCredential);
+    const response: ApiResponse<User> = result.data as ApiResponse<User>
+    return response.data;
 }
