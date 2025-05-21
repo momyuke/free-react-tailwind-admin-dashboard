@@ -8,8 +8,8 @@ export interface User {
     phone_number: string;
     token: string;
     is_super_admin: boolean;
-    is_active: number;       // Could also be `boolean` if you plan to map 0/1
-    created_at: string;      // Use `Date` if you plan to parse it as a date
+    is_active: number;       
+    created_at: string;
 }
 
 
@@ -18,3 +18,4 @@ export interface AuthCredential {
     password: string;
 }
 
+export const COOKIE_TOKEN_KEY = 'token';

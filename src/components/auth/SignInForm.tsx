@@ -1,7 +1,8 @@
-import { AuthCredential } from '@/core/domain';
-import { useUserStore } from '@/core/stores/userStore';
-import { getTypedFormData } from '@/core/utils';
+import { AuthCredential } from "@/core/domain";
+import { useAppStore } from "@/core/stores/appStore";
+import { getTypedFormData } from "@/core/utils";
 import { FormEvent, useCallback, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
@@ -9,16 +10,18 @@ import Button from "../ui/button/Button";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useUserStore();
+  const { login } = useAppStore();
   const formRef = useRef<HTMLFormElement>(null);
+  const navigate = useNavigate();
 
-  const onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(formRef.current ?? undefined)
-    const authCredential: AuthCredential = getTypedFormData<AuthCredential>(data);
-    login(authCredential);
-  }, [])
-
+    const data = new FormData(formRef.current ?? undefined);
+    const authCredential: AuthCredential =
+      getTypedFormData<AuthCredential>(data);
+    const isSuccess = await login(authCredential);
+    if (isSuccess) return navigate("/");
+  }, []);
 
   return (
     <div className="flex flex-col flex-1">
@@ -33,19 +36,18 @@ export default function SignInForm() {
             </p>
           </div>
           <div>
-
             <form onSubmit={onSubmit} ref={formRef}>
               <div className="space-y-6">
                 <Label>
                   Email <span className="text-error-500">*</span>{" "}
                 </Label>
-                <Input name='email' placeholder="info@gmail.com" />
+                <Input name="email" placeholder="info@gmail.com" />
                 <Label>
                   Password <span className="text-error-500">*</span>{" "}
                 </Label>
                 <div className="relative">
                   <Input
-                    name='password'
+                    name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
                   />
@@ -62,7 +64,7 @@ export default function SignInForm() {
                 </div>
 
                 <div>
-                  <Button type='submit' className="w-full" size="sm">
+                  <Button type="submit" className="w-full" size="sm">
                     Sign in
                   </Button>
                 </div>

@@ -1,9 +1,10 @@
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   className?: string;
+  childClassname?: string;
   children: React.ReactNode;
   showCloseButton?: boolean; // New prop to control close button visibility
   isFullscreen?: boolean; // Default to false for backwards compatibility
@@ -14,6 +15,7 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   children,
   className,
+  childClassname,
   showCloseButton = true, // Default to true for backwards compatibility
   isFullscreen = false,
 }) => {
@@ -87,7 +89,7 @@ export const Modal: React.FC<ModalProps> = ({
             </svg>
           </button>
         )}
-        <div>{children}</div>
+        <div className={childClassname}>{children}</div>
       </div>
     </div>
   );
