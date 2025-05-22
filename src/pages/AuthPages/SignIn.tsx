@@ -1,5 +1,5 @@
-import { LoadingModal, MessageModal } from "@/components/modal";
-import { GENERAL_ERROR_KEY, LOADING_LOGIN_KEY } from "@/core/domain";
+import { LoadingModal } from "@/components/modal";
+import { LOADING_LOGIN_KEY } from "@/core/domain";
 import SignInForm from "../../components/auth/SignInForm";
 import PageMeta from "../../components/common/PageMeta";
 import AuthLayout from "./AuthPageLayout";
@@ -14,7 +14,6 @@ export default function SignIn() {
       <AuthLayout>
         <SignInForm />
         <LoadingModal loadingKey={LOADING_LOGIN_KEY} />
-        <MessageModal modalKey={GENERAL_ERROR_KEY} />
       </AuthLayout>
     </>
   );

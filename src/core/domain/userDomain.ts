@@ -19,3 +19,17 @@ export interface AuthCredential {
 }
 
 export const COOKIE_TOKEN_KEY = 'token';
+
+export const defaultUser: User = {
+    account_id: "",
+    role_id: "",
+    role_name: "",
+    employee_code: "",
+    full_name: "",
+    email: "",
+    phone_number: "",
+    token: "",
+    is_super_admin: false,
+    is_active: 0,
+    created_at: "",
+}

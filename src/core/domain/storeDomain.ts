@@ -14,5 +14,9 @@ export interface ModalStoreState {
     setMessage: (key: string, message: string) => void;
 }
 
+export interface ClientStoreState {
+    clients: User[],
+}
+
 
 export type AppStoreState = ModalStoreState & UserStoreState

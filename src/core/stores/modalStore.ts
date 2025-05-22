@@ -12,7 +12,6 @@ export const createModalStore = (set: (fn: (state: AppStoreState) => Partial<App
                 }
             }))
         },
-
         openModal: (key: string) => {
             set((state) => ({
                 ...state,

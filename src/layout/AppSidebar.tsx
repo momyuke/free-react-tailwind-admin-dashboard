@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 
 // Assume these icons are imported from an icon library
+import { useSidebar } from "../context/SidebarContext";
 import {
   BoxCubeIcon,
   CalenderIcon,
@@ -15,7 +16,6 @@ import {
   TableIcon,
   UserCircleIcon,
 } from "../icons";
-import { useSidebar } from "../context/SidebarContext";
 import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
@@ -50,6 +50,11 @@ const navItems: NavItem[] = [
     name: "Tables",
     icon: <TableIcon />,
     subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+  },
+  {
+    name: "Client",
+    icon: <UserCircleIcon />,
+    path: "/client",
   },
   {
     name: "Pages",

@@ -1,4 +1,7 @@
+import { MessageModal } from "@/components/modal";
+import { GENERAL_ERROR_KEY } from "@/core/domain";
 import { AuthorizedRoute } from "@/pages/AuthorizedRoute";
+import Client from "@/pages/Client/Client";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import AppLayout from "./layout/AppLayout";
@@ -41,6 +44,7 @@ export default function App() {
 
               {/* Tables */}
               <Route path="/basic-tables" element={<BasicTables />} />
+              <Route path="/client" element={<Client />} />
 
               {/* Ui Elements */}
               <Route path="/alerts" element={<Alerts />} />
@@ -66,6 +70,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
+      <MessageModal modalKey={GENERAL_ERROR_KEY} />
     </>
   );
 }
