@@ -1,9 +1,9 @@
 import { loginApi } from "@/core/api/userApi";
-import { AuthCredential, COOKIE_TOKEN_KEY, defaultUser, LOADING_LOGIN_KEY } from "@/core/domain";
-import { AppStoreState, UserStoreState } from "@/core/domain/storeDomain";
-import { deleteCookie, setCookie } from "@/core/utils";
+import { AuthCredential, COOKIE_TOKEN_KEY, COOKIE_USER_KEY, defaultUser, LOADING_LOGIN_KEY } from "@/core/domain";
+import { AppStoreState, AuthStoreState } from "@/core/domain/storeDomain";
+import { deleteCookie, getCookie, setCookie } from "@/core/utils";
 
-export const createAuthStore = (set: (fn: (state: AppStoreState) => Partial<AppStoreState>) => void, get: () => AppStoreState): UserStoreState => {
+export const createAuthStore = (set: (fn: (state: AppStoreState) => Partial<AppStoreState>) => void, get: () => AppStoreState): AuthStoreState => {
     return ({
         async login(authCredential: AuthCredential) {
             get().openModal(LOADING_LOGIN_KEY);
@@ -11,6 +11,7 @@ export const createAuthStore = (set: (fn: (state: AppStoreState) => Partial<AppS
                 const result = await loginApi(authCredential)
                 set(_ => ({ user: result }))
                 setCookie(COOKIE_TOKEN_KEY, result.token);
+                setCookie(COOKIE_USER_KEY, JSON.stringify(result));
                 return true;
             } catch (e) {
                 return false;
@@ -22,6 +23,6 @@ export const createAuthStore = (set: (fn: (state: AppStoreState) => Partial<AppS
             deleteCookie('token');
             set(() => ({user: defaultUser}))
         },
-        user: defaultUser
+        user: JSON.parse(getCookie(COOKIE_USER_KEY, {defaultValue: '{}'})) ?? defaultUser
     })
 }

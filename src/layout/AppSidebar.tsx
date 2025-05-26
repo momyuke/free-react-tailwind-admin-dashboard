@@ -57,6 +57,11 @@ const navItems: NavItem[] = [
     path: "/client",
   },
   {
+    name: "Account",
+    icon: <UserCircleIcon />,
+    path: "/accounts",
+  },
+  {
     name: "Pages",
     icon: <PageIcon />,
     subItems: [

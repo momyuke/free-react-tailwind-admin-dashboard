@@ -6,6 +6,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 export const axiosApi = axios.create({ baseURL: import.meta.env.VITE_BASE_API_URL })
 
+
 const onErrorResponse = (err: any) => {
      const {response} = err as AxiosError
     const data = response?.data as ApiResponse<any>
@@ -16,7 +17,7 @@ const onErrorResponse = (err: any) => {
 
 const onRequest = (request: InternalAxiosRequestConfig<any>) => {
     const token = getCookie('token');
-    request.headers.set('Authorization', token);
+    request.headers.set('Authorization', "Bearer " + token);
     return request;
 }
 

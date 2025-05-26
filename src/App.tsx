@@ -1,5 +1,6 @@
 import { MessageModal } from "@/components/modal";
 import { GENERAL_ERROR_KEY } from "@/core/domain";
+import Account from "@/pages/Account/Accounts";
 import { AuthorizedRoute } from "@/pages/AuthorizedRoute";
 import Client from "@/pages/Client/Client";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
@@ -45,6 +46,7 @@ export default function App() {
               {/* Tables */}
               <Route path="/basic-tables" element={<BasicTables />} />
               <Route path="/client" element={<Client />} />
+              <Route path="/accounts" element={<Account />} />
 
               {/* Ui Elements */}
               <Route path="/alerts" element={<Alerts />} />

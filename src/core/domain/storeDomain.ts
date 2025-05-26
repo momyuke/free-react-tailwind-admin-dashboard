@@ -1,6 +1,6 @@
 import { AuthCredential, User } from "@/core/domain/userDomain";
 
-export interface UserStoreState {
+export interface AuthStoreState {
     user: User,
     login: (credential: AuthCredential) => Promise<boolean>
     logout: () => void
@@ -14,9 +14,14 @@ export interface ModalStoreState {
     setMessage: (key: string, message: string) => void;
 }
 
+export interface AccountStoreState {
+    accounts: User[];
+    getAccounts: () => Promise<void>;
+}
+
 export interface ClientStoreState {
     clients: User[],
 }
 
 
-export type AppStoreState = ModalStoreState & UserStoreState
+export type AppStoreState = ModalStoreState  & AccountStoreState & AuthStoreState

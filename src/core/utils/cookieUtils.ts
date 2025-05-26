@@ -1,5 +1,9 @@
 
-export const getCookie = (cname: string) => {
+interface GetCookieOptions {
+    defaultValue?: string
+}
+
+export const getCookie = (cname: string, opts?: GetCookieOptions) => {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
@@ -12,7 +16,7 @@ export const getCookie = (cname: string) => {
             return c.substring(name.length, c.length);
         }
     }
-    return "";
+    return opts?.defaultValue ?? "";
 }
 
 export const setCookie = (cname: string, cvalue: string, exdays?: number) => {

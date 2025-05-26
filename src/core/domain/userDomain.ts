@@ -19,6 +19,7 @@ export interface AuthCredential {
 }
 
 export const COOKIE_TOKEN_KEY = 'token';
+export const COOKIE_USER_KEY = 'logged_user';
 
 export const defaultUser: User = {
     account_id: "",
