@@ -1,7 +1,13 @@
 import ComponentCard from "@/components/common/ComponentCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import PageMeta from "@/components/common/PageMeta";
-import TableClient from "@/pages/Client/TableClient";
+import { LoadingModal } from "@/components/modal";
+import { LoadingKeys, ModalKeys } from "@/core/domain";
+import {
+  AddButton,
+  AddOrEditClientModal,
+  TableClient,
+} from "@/pages/Client/Components";
 
 export default function Client() {
   return (
@@ -13,9 +19,15 @@ export default function Client() {
       <PageBreadcrumb pageTitle="Client" />
       <div className="space-y-6">
         <ComponentCard title="List Client">
+          <AddButton />
           <TableClient />
         </ComponentCard>
       </div>
+      <AddOrEditClientModal type={ModalKeys.ADD_CLIENT} />
+      <LoadingModal
+        loadingKey={LoadingKeys.LOADING_CUD_CLIENT}
+        isAbleToEscape={false}
+      />
     </>
   );
 }

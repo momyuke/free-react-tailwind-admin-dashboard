@@ -1,5 +1,5 @@
 import { LoadingModal } from "@/components/modal";
-import { LOADING_LOGIN_KEY } from "@/core/domain";
+import { LoadingKeys } from "@/core/domain";
 import SignInForm from "../../components/auth/SignInForm";
 import PageMeta from "../../components/common/PageMeta";
 import AuthLayout from "./AuthPageLayout";
@@ -7,13 +7,13 @@ import AuthLayout from "./AuthPageLayout";
 export default function SignIn() {
   return (
     <>
-      <PageMeta
-        title="React.js SignIn Dashboard | TailAdmin - Next.js Admin Dashboard Template"
-        description="This is React.js SignIn Tables Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
-      />
+      <PageMeta title="Idealab.id | Sign in" description="Sign in to Idealab" />
       <AuthLayout>
         <SignInForm />
-        <LoadingModal loadingKey={LOADING_LOGIN_KEY} />
+        <LoadingModal
+          loadingKey={LoadingKeys.LOADING_LOGIN}
+          isAbleToEscape={false}
+        />
       </AuthLayout>
     </>
   );

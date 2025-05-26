@@ -1,27 +1,29 @@
-import { AuthCredential, User } from "@/core/domain/userDomain";
+import { Client } from "@/core/domain/clientDomain";
+import { User } from "@/core/domain/userDomain";
 
 export interface AuthStoreState {
-    user: User,
-    login: (credential: AuthCredential) => Promise<boolean>
-    logout: () => void
+  user: User;
 }
 
 export interface ModalStoreState {
-    isOpen: any;
-    messages: any;
-    openModal: (key: string) => void;
-    closeModal: (key: string) => void;
-    setMessage: (key: string, message: string) => void;
+  isOpen: any;
+  messages: any;
 }
 
 export interface AccountStoreState {
-    accounts: User[];
-    getAccounts: () => Promise<void>;
+  accounts: User[];
 }
 
 export interface ClientStoreState {
-    clients: User[],
+  clients: Client[];
 }
 
+export interface PaginationStoreState {
+  paginations: any;
+}
 
-export type AppStoreState = ModalStoreState  & AccountStoreState & AuthStoreState
+export type AppStoreState = ModalStoreState &
+  AccountStoreState &
+  AuthStoreState &
+  ClientStoreState &
+  PaginationStoreState;

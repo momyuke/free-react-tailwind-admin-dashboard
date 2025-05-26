@@ -14,3 +14,4 @@ export interface PaginationResponse<T> {
 
 export const GENERAL_ERROR_MESSAGE = 'Oops, there is something wrong. Please kindly check again later.'
 export const APP_PATH_API = '/app';
+export const CLIENT_PATH_API = `${APP_PATH_API}/client`

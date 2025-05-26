@@ -2,12 +2,17 @@ import { GeneralModal } from "@/components/modal/generalModal";
 
 interface LoadingModalProps {
   loadingKey: string;
+  isAbleToEscape?: boolean;
 }
 
-export const LoadingModal = (props: LoadingModalProps) => {
+export const LoadingModal = ({
+  loadingKey,
+  isAbleToEscape = true,
+}: LoadingModalProps) => {
   return (
     <GeneralModal
-      modalKey={props.loadingKey}
+      modalKey={loadingKey}
+      isAbleToEscape={isAbleToEscape}
       className="max-w-[700px] p-6 lg:p-10 m-10"
       childClassName="flex flex-col items-center justify-items-center text-center"
     >

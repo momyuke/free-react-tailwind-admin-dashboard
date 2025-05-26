@@ -1,5 +1,5 @@
 import { MessageModal } from "@/components/modal";
-import { GENERAL_ERROR_KEY } from "@/core/domain";
+import { ModalKeys } from "@/core/domain";
 import Account from "@/pages/Account/Accounts";
 import { AuthorizedRoute } from "@/pages/AuthorizedRoute";
 import Client from "@/pages/Client/Client";
@@ -72,7 +72,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-      <MessageModal modalKey={GENERAL_ERROR_KEY} />
+      <MessageModal modalKey={ModalKeys.GENERAL_MESSAGE} />
     </>
   );
 }

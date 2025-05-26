@@ -1,5 +1,5 @@
 import { AuthCredential } from "@/core/domain";
-import { useAppStore } from "@/core/stores/appStore";
+import { login } from "@/core/services";
 import { getTypedFormData } from "@/core/utils";
 import { FormEvent, useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router";
@@ -10,18 +10,20 @@ import Button from "../ui/button/Button";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAppStore();
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
-  const onSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = new FormData(formRef.current ?? undefined);
-    const authCredential: AuthCredential =
-      getTypedFormData<AuthCredential>(data);
-    const isSuccess = await login(authCredential);
-    if (isSuccess) return navigate("/");
-  }, []);
+  const onSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const data = new FormData(formRef.current ?? undefined);
+      const authCredential: AuthCredential =
+        getTypedFormData<AuthCredential>(data);
+      const isSuccess = await login(authCredential);
+      if (isSuccess) return navigate("/");
+    },
+    [navigate]
+  );
 
   return (
     <div className="flex flex-col flex-1">

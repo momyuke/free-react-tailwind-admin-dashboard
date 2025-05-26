@@ -1,4 +1,5 @@
 import { Modal } from "@/components/ui/modal";
+import { closeModal } from "@/core/services";
 import { useAppStore } from "@/core/stores/appStore";
 import { ReactNode, useCallback } from "react";
 
@@ -8,20 +9,22 @@ interface GeneralModalProps {
   showCloseButton?: boolean;
   className?: string;
   childClassName?: string;
+  isAbleToEscape?: boolean;
 }
 
 export const GeneralModal = ({
   modalKey,
   children,
   showCloseButton = false,
-  className,
+  className = "max-w-[700px] p-6 lg:p-10 m-10",
   childClassName,
+  isAbleToEscape = true,
 }: GeneralModalProps) => {
-  const { isOpen, closeModal } = useAppStore();
+  const { isOpen } = useAppStore();
   const isKeyOpen = isOpen[modalKey] ?? "";
   const onClose = useCallback(() => {
     closeModal(modalKey);
-  }, []);
+  }, [modalKey]);
 
   return (
     <Modal
@@ -30,6 +33,7 @@ export const GeneralModal = ({
       showCloseButton={showCloseButton}
       isOpen={isKeyOpen}
       onClose={onClose}
+      isAbleToEscape={isAbleToEscape}
     >
       {children}
     </Modal>

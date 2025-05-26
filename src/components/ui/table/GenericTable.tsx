@@ -5,7 +5,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { toTitleCase } from "@/core/utils";
+import { camelToReadable } from "@/core/utils";
 
 export type Column<T> = {
   key: keyof T;
@@ -28,7 +28,7 @@ export function GenericTable<T extends object>({
     columns ??
     Object.keys((data[0] ?? {}) as (keyof T)[]).map((key) => ({
       key,
-      label: toTitleCase(key),
+      label: camelToReadable(key),
       render: null,
     }));
 
@@ -38,10 +38,11 @@ export function GenericTable<T extends object>({
         <Table className="max-w-full overflow-x-auto">
           <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
-              {headers.map((value) => (
+              {headers.map((value, idx) => (
                 <TableCell
+                  key={idx}
                   isHeader
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  className="px-4 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400 "
                 >
                   {value.label ?? String(value.key)}
                 </TableCell>

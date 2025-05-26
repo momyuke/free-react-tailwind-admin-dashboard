@@ -1,3 +1,4 @@
+import { logout } from "@/core/services";
 import { useAppStore } from "@/core/stores/appStore";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
@@ -6,13 +7,13 @@ import { DropdownItem } from "../ui/dropdown/DropdownItem";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, user } = useAppStore();
+  const { user } = useAppStore();
   const navigate = useNavigate();
 
   const onLogout = useCallback(() => {
     logout();
     navigate("/signin");
-  }, []);
+  }, [navigate]);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
