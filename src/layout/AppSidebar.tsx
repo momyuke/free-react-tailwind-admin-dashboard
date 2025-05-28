@@ -92,14 +92,14 @@ const othersItems: NavItem[] = [
       { name: "Videos", path: "/videos", pro: false },
     ],
   },
-  {
-    icon: <PlugInIcon />,
-    name: "Authentication",
-    subItems: [
-      { name: "Sign In", path: "/signin", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
-    ],
-  },
+  // {
+  //   icon: <PlugInIcon />,
+  //   name: "Authentication",
+  //   subItems: [
+  //     { name: "Sign In", path: "/signin", pro: false },
+  //     { name: "Sign Up", path: "/signup", pro: false },
+  //   ],
+  // },
 ];
 
 const AppSidebar: React.FC = () => {
@@ -317,15 +317,15 @@ const AppSidebar: React.FC = () => {
           {isExpanded || isHovered || isMobileOpen ? (
             <>
               <img
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
+                className="dark:hidden w-15"
+                src="/images/logo/idealab-logoonly.png"
                 alt="Logo"
                 width={150}
                 height={40}
               />
               <img
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                className="hidden dark:block w-15"
+                src="/images/logo/idealab-logoonly.png"
                 alt="Logo"
                 width={150}
                 height={40}
@@ -333,7 +333,7 @@ const AppSidebar: React.FC = () => {
             </>
           ) : (
             <img
-              src="/images/logo/logo-icon.svg"
+              src="/images/logo/idealab-logoonly.png"
               alt="Logo"
               width={32}
               height={32}
@@ -378,7 +378,7 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
+        {/* {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null} */}
       </div>
     </aside>
   );
