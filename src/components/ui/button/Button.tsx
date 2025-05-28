@@ -9,6 +9,7 @@ interface ButtonProps {
   onClick?: () => void; // Click handler
   type?: "submit" | "reset" | "button" | undefined;
   disabled?: boolean; // Disabled state
+  useVariant?: boolean; // Disabled state
   className?: string; // Disabled state
   color?: string;
 }
@@ -24,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type,
   color,
+  useVariant = true,
 }) => {
   // Size Classes
   const sizeClasses = {
@@ -43,7 +45,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       className={`inline-flex items-center justify-center gap-2 rounded-lg transition ${className} ${
         sizeClasses[size]
-      } ${variantClasses[variant]} ${
+      } ${useVariant && variantClasses[variant]} ${
         disabled ? "cursor-not-allowed opacity-50" : ""
       }`}
       onClick={onClick}

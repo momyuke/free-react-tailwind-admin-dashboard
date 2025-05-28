@@ -33,9 +33,9 @@ export function GenericTable<T extends object>({
     }));
 
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-      <div>
-        <Table className="max-w-full overflow-x-auto">
+    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] max-w-full overflow-x-auto">
+      <div className="">
+        <Table className=" ">
           <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
               {headers.map((value, idx) => (

@@ -1,6 +1,8 @@
 export const ModalKeys = {
   GENERAL_MESSAGE: "GENERAL_MESSAGE",
   ADD_CLIENT: "ADD_CLIENT",
+  UPDATE_CLIENT: "UPDATE_CLIENT",
+  DELETE_CLIENT: "DELETE_CLIENT",
 };
 
 export const PaginationKeys = {

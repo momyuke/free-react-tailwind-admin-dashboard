@@ -1,4 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface GetTypedFormDataOpts {
+  /**
+   * The keys that included would not verified as a number or not.
+   * And would be return as is
+   */
   allowAsIsKey?: Array<string>;
 }
 

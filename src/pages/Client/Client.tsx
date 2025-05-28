@@ -8,6 +8,7 @@ import {
   AddOrEditClientModal,
   TableClient,
 } from "@/pages/Client/Components";
+import { DeleteClientModal } from "@/pages/Client/Components/Modals";
 
 export default function Client() {
   return (
@@ -24,6 +25,8 @@ export default function Client() {
         </ComponentCard>
       </div>
       <AddOrEditClientModal type={ModalKeys.ADD_CLIENT} />
+      <AddOrEditClientModal type={ModalKeys.UPDATE_CLIENT} />
+      <DeleteClientModal />
       <LoadingModal
         loadingKey={LoadingKeys.LOADING_CUD_CLIENT}
         isAbleToEscape={false}

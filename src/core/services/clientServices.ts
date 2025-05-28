@@ -1,4 +1,9 @@
-import { createClientApi, getClientApi } from "@/core/api/clientApi";
+import {
+  createClientApi,
+  deleteClientApi,
+  editClientApi,
+  getClientApi,
+} from "@/core/api/clientApi";
 import {
   Client,
   GENERAL_ERROR_MESSAGE,
@@ -7,7 +12,6 @@ import {
   PaginationKeys,
 } from "@/core/domain";
 import {
-  closeAllModal,
   closeModal,
   openModal,
   setMessage,
@@ -54,6 +58,59 @@ export const createClient = async (client: Client) => {
     setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
     openModal(ModalKeys.GENERAL_MESSAGE);
   } finally {
-    closeAllModal();
+    closeModal(LoadingKeys.LOADING_CUD_CLIENT);
+    closeModal(ModalKeys.ADD_CLIENT);
   }
+};
+
+export const editClient = async (client: Client) => {
+  openModal(LoadingKeys.LOADING_CUD_CLIENT);
+  try {
+    const response = await editClientApi(client);
+    setMessage(
+      ModalKeys.GENERAL_MESSAGE,
+      response.message ?? "Success Edit Client Data"
+    );
+    openModal(ModalKeys.GENERAL_MESSAGE);
+    getClients();
+    removeSelectedClient();
+  } catch (e) {
+    console.log(e);
+    setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
+    openModal(ModalKeys.GENERAL_MESSAGE);
+  } finally {
+    closeModal(LoadingKeys.LOADING_CUD_CLIENT);
+    closeModal(ModalKeys.UPDATE_CLIENT);
+  }
+};
+
+export const deleteClient = async (id: string) => {
+  openModal(LoadingKeys.LOADING_CUD_CLIENT);
+  try {
+    const response = await deleteClientApi(id);
+    setMessage(
+      ModalKeys.GENERAL_MESSAGE,
+      response.message ?? "Success Delete Client Data"
+    );
+    openModal(ModalKeys.GENERAL_MESSAGE);
+    getClients();
+    removeSelectedClient();
+  } catch (e) {
+    console.log(e);
+    setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
+    openModal(ModalKeys.GENERAL_MESSAGE);
+  } finally {
+    closeModal(LoadingKeys.LOADING_CUD_CLIENT);
+    closeModal(ModalKeys.DELETE_CLIENT);
+  }
+};
+
+export const selectClient = (client?: Client) => {
+  const { setState } = useAppStore;
+  setState(() => ({ selectedClient: client }));
+};
+
+export const removeSelectedClient = () => {
+  const { setState } = useAppStore;
+  setState(() => ({ selectedClient: undefined }));
 };

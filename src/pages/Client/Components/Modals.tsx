@@ -3,47 +3,61 @@ import Label from "@/components/form/Label";
 import { GeneralModal } from "@/components/modal";
 import Button from "@/components/ui/button/Button";
 import { Client, ModalKeys } from "@/core/domain";
-import { createClient } from "@/core/services";
+import {
+  closeModal,
+  createClient,
+  deleteClient,
+  editClient,
+  removeSelectedClient,
+} from "@/core/services";
+import { useAppStore } from "@/core/stores/appStore";
 import { getTypedFormData } from "@/core/utils";
 import { BoxIcon } from "@/icons";
-import { FormEvent, useCallback, useRef } from "react";
+import { FormEvent, useCallback } from "react";
 
 interface AddOrEditClientModalProps {
   type: string;
-  client?: Client;
 }
 
-export const AddOrEditClientModal = ({
-  type,
-  client,
-}: AddOrEditClientModalProps) => {
+export const AddOrEditClientModal = ({ type }: AddOrEditClientModalProps) => {
+  const { selectedClient } = useAppStore();
   const isAdd = type === ModalKeys.ADD_CLIENT;
   const wordingTitle = isAdd ? "Add" : "Edit";
-  const formRef = useRef<HTMLFormElement>(null);
 
-  const onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = new FormData(formRef.current ?? undefined);
-    console.log(data.get("phoneNumber"));
-    console.log(typeof data.get("phoneNumber"));
-    const client: Client = getTypedFormData<Client>(data, {
-      allowAsIsKey: ["phoneNumber"],
-    });
-    createClient(client);
-  }, []);
+  const onSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const data = new FormData(e.currentTarget ?? undefined);
+      console.log(data.get("id"));
+      const client: Client = getTypedFormData<Client>(data, {
+        allowAsIsKey: ["phoneNumber"],
+      });
+      if (isAdd) {
+        return createClient(client);
+      }
+      client.id = selectedClient?.id ?? "";
+      return editClient(client);
+    },
+    [isAdd, selectedClient?.id]
+  );
+
+  const onClose = () => {
+    removeSelectedClient();
+  };
 
   return (
-    <GeneralModal modalKey={type} showCloseButton isAbleToEscape>
+    <GeneralModal
+      modalKey={type}
+      onClose={onClose}
+      showCloseButton
+      isAbleToEscape
+    >
       <p>{wordingTitle} Client</p>
-      <form
-        onSubmit={onSubmit}
-        ref={formRef}
-        className="mt-10 flex flex-col gap-5"
-      >
+      <form onSubmit={onSubmit} className="mt-10 flex flex-col gap-5">
         {!isAdd && (
           <div>
             <Label htmlFor="id">Client ID</Label>
-            <Input type="text" name="id" value={client?.id} disabled />
+            <Input type="text" name="id" value={selectedClient?.id} disabled />
           </div>
         )}
         <div>
@@ -51,19 +65,27 @@ export const AddOrEditClientModal = ({
           <Input
             type="text"
             name="name"
+            defaultValue={selectedClient?.name}
             placeholder="PT Senang Susah"
             required
           />
         </div>
         <div>
           <Label htmlFor="pic">PIC</Label>
-          <Input type="text" name="pic" placeholder="Depp Johnny" required />
+          <Input
+            type="text"
+            name="pic"
+            defaultValue={selectedClient?.pic}
+            placeholder="Depp Johnny"
+            required
+          />
         </div>
         <div>
           <Label htmlFor="email">Email</Label>
           <Input
             type="email"
             name="email"
+            defaultValue={selectedClient?.email}
             placeholder="info@gmail.com"
             required
           />
@@ -74,6 +96,7 @@ export const AddOrEditClientModal = ({
             type="text"
             name="phoneNumber"
             placeholder="628123456890"
+            defaultValue={selectedClient?.phoneNumber}
             required
           />
         </div>
@@ -83,6 +106,7 @@ export const AddOrEditClientModal = ({
             type="text"
             name="address"
             placeholder="Jl. Sisingamangaraja IX"
+            defaultValue={selectedClient?.address}
             required
           />
         </div>
@@ -92,10 +116,57 @@ export const AddOrEditClientModal = ({
             type="submit"
             startIcon={<BoxIcon className="size-5" />}
           >
-            Add Client
+            {wordingTitle} Client
           </Button>
         </div>
       </form>
+    </GeneralModal>
+  );
+};
+
+export const DeleteClientModal = () => {
+  const { selectedClient } = useAppStore();
+
+  const onClose = () => {
+    removeSelectedClient();
+  };
+
+  const onCancel = () => {
+    closeModal(ModalKeys.DELETE_CLIENT);
+  };
+
+  const onDelete = () => {
+    deleteClient(selectedClient?.id ?? "");
+  };
+
+  return (
+    <GeneralModal
+      modalKey={ModalKeys.DELETE_CLIENT}
+      showCloseButton
+      isAbleToEscape
+      onClose={onClose}
+    >
+      <div className="mt-10">
+        <h2 className="text-lg">
+          Are you sure want to delete client {selectedClient?.name}
+        </h2>
+        <div className="flex justify-end mt-6 gap-3">
+          <Button
+            onClick={onCancel}
+            useVariant={false}
+            className="bg-green-500 text-white"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={onDelete}
+            useVariant={false}
+            className="bg-red-500 text-white"
+          >
+            Delete
+          </Button>
+        </div>
+      </div>
     </GeneralModal>
   );
 };

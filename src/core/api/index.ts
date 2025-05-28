@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApiResponse, GENERAL_ERROR_MESSAGE, ModalKeys } from "@/core/domain";
 import { logout, openModal, setMessage } from "@/core/services";
 import { convertKeys, getCookie, toCamelCase, toSnakeCase } from "@/core/utils";
@@ -11,21 +12,22 @@ export const axiosApi = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL,
 });
 
-const onErrorResponse = (err: unknown) => {
+const onErrorResponse = (err: any) => {
   const { response } = err as AxiosError;
-  const data = response?.data as ApiResponse<unknown>;
+  console.log(response);
+  const data = response?.data as ApiResponse<any>;
   setMessage(ModalKeys.GENERAL_MESSAGE, data.message ?? GENERAL_ERROR_MESSAGE);
   openModal(ModalKeys.GENERAL_MESSAGE);
   if (response?.status === 401) {
     logout();
     window.location.href = "/";
   }
+  return Promise.reject(err);
 };
 
 const onResponse = (respone: AxiosResponse<unknown, unknown>) => {
   const responseApi = JSON.parse(
     JSON.stringify(respone.data)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as ApiResponse<any>;
   responseApi.data = convertKeys(responseApi.data, toCamelCase);
   respone.data = responseApi;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Client } from "@/core/domain/clientDomain";
 import { User } from "@/core/domain/userDomain";
 
@@ -16,6 +17,7 @@ export interface AccountStoreState {
 
 export interface ClientStoreState {
   clients: Client[];
+  selectedClient?: Client;
 }
 
 export interface PaginationStoreState {

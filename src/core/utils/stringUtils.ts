@@ -20,6 +20,5 @@ export const camelToReadable = (camelCaseString: string) => {
   const result = camelCaseString
     .replace(/([A-Z])([A-Z][a-z])/g, "$1 $2")
     .replace(/([a-z])([A-Z])/g, "$1 $2");
-  // Capitalize the first letter and return
   return result.charAt(0).toUpperCase() + result.slice(1);
 };

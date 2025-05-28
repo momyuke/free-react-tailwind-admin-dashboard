@@ -10,6 +10,10 @@ interface GeneralModalProps {
   className?: string;
   childClassName?: string;
   isAbleToEscape?: boolean;
+  /**
+   * Would be called after closing the modal
+   */
+  onClose?: () => void;
 }
 
 export const GeneralModal = ({
@@ -19,12 +23,14 @@ export const GeneralModal = ({
   className = "max-w-[700px] p-6 lg:p-10 m-10",
   childClassName,
   isAbleToEscape = true,
+  onClose,
 }: GeneralModalProps) => {
   const { isOpen } = useAppStore();
   const isKeyOpen = isOpen[modalKey] ?? "";
-  const onClose = useCallback(() => {
+  const onCloseModal = useCallback(() => {
     closeModal(modalKey);
-  }, [modalKey]);
+    if (onClose) onClose();
+  }, [modalKey, onClose]);
 
   return (
     <Modal
@@ -32,7 +38,7 @@ export const GeneralModal = ({
       childClassname={childClassName}
       showCloseButton={showCloseButton}
       isOpen={isKeyOpen}
-      onClose={onClose}
+      onClose={onCloseModal}
       isAbleToEscape={isAbleToEscape}
     >
       {children}
