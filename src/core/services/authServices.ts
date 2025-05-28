@@ -21,10 +21,10 @@ export const login = async (authCredential: AuthCredential) => {
     return true;
   } catch (e) {
     console.log(e);
-    return false;
   } finally {
     closeModal(LoadingKeys.LOADING_LOGIN);
   }
+  return false;
 };
 
 export const logout = () => {

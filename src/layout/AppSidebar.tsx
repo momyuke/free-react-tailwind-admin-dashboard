@@ -12,11 +12,9 @@ import {
   ListIcon,
   PageIcon,
   PieChartIcon,
-  PlugInIcon,
   TableIcon,
   UserCircleIcon,
 } from "../icons";
-import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
   name: string;
