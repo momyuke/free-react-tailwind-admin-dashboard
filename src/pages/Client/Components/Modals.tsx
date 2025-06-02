@@ -93,7 +93,7 @@ export const AddOrEditClientModal = ({ type }: AddOrEditClientModalProps) => {
         <div>
           <Label htmlFor="phoneNumber">Phone Number</Label>
           <Input
-            type="text"
+            type="number"
             name="phoneNumber"
             placeholder="628123456890"
             defaultValue={selectedClient?.phoneNumber}

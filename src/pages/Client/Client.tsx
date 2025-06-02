@@ -18,7 +18,7 @@ export default function Client() {
         description="List Client for Idealab.id"
       />
       <PageBreadcrumb pageTitle="Client" />
-      <div className="space-y-6">
+      <div className="w-full space-y-6">
         <ComponentCard title="List Client">
           <AddButton />
           <TableClient />

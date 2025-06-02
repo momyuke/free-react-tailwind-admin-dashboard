@@ -3,6 +3,7 @@ import {
   deleteClientApi,
   editClientApi,
   getClientApi,
+  setStatusClientApi,
 } from "@/core/api/clientApi";
 import {
   Client,
@@ -10,6 +11,7 @@ import {
   LoadingKeys,
   ModalKeys,
   PaginationKeys,
+  PaginationRequest,
 } from "@/core/domain";
 import {
   closeModal,
@@ -22,15 +24,16 @@ import {
 } from "@/core/services/paginationServices";
 import { useAppStore } from "@/core/stores/appStore";
 
-export const getClients = async () => {
+export const getClients = async ({ page, perPage }: PaginationRequest) => {
   const { setState } = useAppStore;
   openModal(LoadingKeys.LOADING_CLIENT);
   try {
-    const response = await getClientApi();
+    const response = await getClientApi({ page, perPage });
     const pagination: SetPaginationProps = {
       key: PaginationKeys.CLIENT,
-      perPage: response.perPage,
-      page: response.page,
+      perPage: perPage || 10,
+      page,
+      count: response.totalCount,
     };
     setPagination(pagination);
     setState(() => ({ clients: response.items }));
@@ -43,6 +46,12 @@ export const getClients = async () => {
   }
 };
 
+const getClientWithPagination = () => {
+  const { getState } = useAppStore;
+  const { paginations } = getState();
+  getClients(paginations[PaginationKeys.CLIENT]);
+};
+
 export const createClient = async (client: Client) => {
   openModal(LoadingKeys.LOADING_CUD_CLIENT);
   try {
@@ -52,7 +61,7 @@ export const createClient = async (client: Client) => {
       response.message ?? "Success Add Client Data"
     );
     openModal(ModalKeys.GENERAL_MESSAGE);
-    getClients();
+    getClientWithPagination();
   } catch (e) {
     console.log(e);
     setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
@@ -72,7 +81,7 @@ export const editClient = async (client: Client) => {
       response.message ?? "Success Edit Client Data"
     );
     openModal(ModalKeys.GENERAL_MESSAGE);
-    getClients();
+    getClientWithPagination();
     removeSelectedClient();
   } catch (e) {
     console.log(e);
@@ -84,6 +93,10 @@ export const editClient = async (client: Client) => {
   }
 };
 
+export const setStatusClient = async (id: string) => {
+  setStatusClientApi(id);
+};
+
 export const deleteClient = async (id: string) => {
   openModal(LoadingKeys.LOADING_CUD_CLIENT);
   try {
@@ -93,7 +106,7 @@ export const deleteClient = async (id: string) => {
       response.message ?? "Success Delete Client Data"
     );
     openModal(ModalKeys.GENERAL_MESSAGE);
-    getClients();
+    getClientWithPagination();
     removeSelectedClient();
   } catch (e) {
     console.log(e);

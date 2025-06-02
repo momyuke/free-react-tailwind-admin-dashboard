@@ -22,7 +22,8 @@ export function GenericTable<T extends object>({
   data,
   columns,
 }: GenericTableProps<T>) {
-  if (!data || data.length === 0) return <p>No Data</p>;
+  if (!data || data.length === 0)
+    return <p className="dark:text-sky-50 text-center">No Data</p>;
 
   const headers =
     columns ??

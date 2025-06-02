@@ -22,7 +22,7 @@ export const MessageModal = ({
       childClassName={childClassName}
       showCloseButton={true}
     >
-      <p>{message}</p>
+      <p className="dark:text-sky-50 ">{message}</p>
     </GeneralModal>
   );
 };

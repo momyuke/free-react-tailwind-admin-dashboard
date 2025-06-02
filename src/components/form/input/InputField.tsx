@@ -1,8 +1,8 @@
 import type React from "react";
-import type { FC } from "react";
+import type { FC, HTMLInputTypeAttribute } from "react";
 
 interface InputProps {
-  type?: "text" | "number" | "email" | "password" | "date" | "time" | string;
+  type?: HTMLInputTypeAttribute;
   id?: string;
   name?: string;
   placeholder?: string;

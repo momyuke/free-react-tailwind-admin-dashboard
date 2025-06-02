@@ -4,17 +4,43 @@ export interface SetPaginationProps {
   key: string;
   page?: number;
   perPage: number;
+  count?: number;
 }
 
-export const setPagination = ({ key, page, perPage }: SetPaginationProps) => {
+export const setPagination = ({
+  key,
+  page,
+  perPage,
+  count,
+}: SetPaginationProps) => {
   const { setState } = useAppStore;
   setState((state) => ({
     ...state,
     paginations: {
       ...state.paginations,
       [key]: {
-        page: page,
-        perPage: perPage,
+        page,
+        perPage,
+        count,
+      },
+    },
+  }));
+};
+
+interface SetCountProps {
+  key: string;
+  count: number;
+}
+
+export const setCount = ({ key, count }: SetCountProps) => {
+  const { setState } = useAppStore;
+  setState((state) => ({
+    ...state,
+    paginations: {
+      ...state.paginations,
+      [key]: {
+        ...state.paginations[key],
+        count,
       },
     },
   }));

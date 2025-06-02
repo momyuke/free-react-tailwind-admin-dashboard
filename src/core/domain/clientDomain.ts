@@ -8,3 +8,14 @@ export interface Client {
   phoneNumber: string;
   pic: string;
 }
+
+export const defaultClient: Client = {
+  id: "",
+  name: "",
+  phoneNumber: "",
+  pic: "",
+  email: "",
+  address: "",
+  createdAt: "",
+  isActive: 0,
+};
