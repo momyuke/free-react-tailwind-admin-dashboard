@@ -6,9 +6,9 @@ import { LoadingKeys, ModalKeys } from "@/core/domain";
 import {
   AddButton,
   AddOrEditClientModal,
+  DeleteClientModal,
   TableClient,
 } from "@/pages/Client/Components";
-import { DeleteClientModal } from "@/pages/Client/Components/Modals";
 
 export default function Client() {
   return (

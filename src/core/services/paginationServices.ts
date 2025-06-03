@@ -26,22 +26,3 @@ export const setPagination = ({
     },
   }));
 };
-
-interface SetCountProps {
-  key: string;
-  count: number;
-}
-
-export const setCount = ({ key, count }: SetCountProps) => {
-  const { setState } = useAppStore;
-  setState((state) => ({
-    ...state,
-    paginations: {
-      ...state.paginations,
-      [key]: {
-        ...state.paginations[key],
-        count,
-      },
-    },
-  }));
-};

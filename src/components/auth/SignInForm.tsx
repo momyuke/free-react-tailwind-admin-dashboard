@@ -20,7 +20,7 @@ export default function SignInForm() {
       const authCredential: AuthCredential =
         getTypedFormData<AuthCredential>(data);
       const isSuccess = await login(authCredential);
-      if (isSuccess) return navigate("/");
+      if (isSuccess) return navigate("/client");
     },
     [navigate]
   );

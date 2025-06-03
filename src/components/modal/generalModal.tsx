@@ -34,7 +34,7 @@ export const GeneralModal = ({
 
   return (
     <Modal
-      className={className}
+      className={`dark:text-white ${className}`}
       childClassname={childClassName}
       showCloseButton={showCloseButton}
       isOpen={isKeyOpen}

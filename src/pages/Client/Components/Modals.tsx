@@ -54,12 +54,12 @@ export const AddOrEditClientModal = ({ type }: AddOrEditClientModalProps) => {
     >
       <p>{wordingTitle} Client</p>
       <form onSubmit={onSubmit} className="mt-10 flex flex-col gap-5">
-        {!isAdd && (
+        {/* {!isAdd && (
           <div>
             <Label htmlFor="id">Client ID</Label>
             <Input type="text" name="id" value={selectedClient?.id} disabled />
           </div>
-        )}
+        )} */}
         <div>
           <Label htmlFor="name">Name</Label>
           <Input
