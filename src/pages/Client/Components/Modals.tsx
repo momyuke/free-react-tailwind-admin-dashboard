@@ -23,6 +23,7 @@ export const AddOrEditClientModal = ({ type }: AddOrEditClientModalProps) => {
   const { selectedClient } = useAppStore();
   const isAdd = type === ModalKeys.ADD_CLIENT;
   const wordingTitle = isAdd ? "Add" : "Edit";
+  const wordingButtonSubmit = isAdd ? "Add Client" : "Save Changes";
 
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
@@ -116,7 +117,7 @@ export const AddOrEditClientModal = ({ type }: AddOrEditClientModalProps) => {
             type="submit"
             startIcon={<BoxIcon className="size-5" />}
           >
-            {wordingTitle} Client
+            {wordingButtonSubmit}
           </Button>
         </div>
       </form>
