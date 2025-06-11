@@ -1,5 +1,6 @@
 import { Loading } from "@/components/common/Loading";
 import Switch from "@/components/form/switch/Switch";
+import { ActionButton } from "@/components/ui/button/ActionButton";
 import { Column, GenericTable } from "@/components/ui/table/GenericTable";
 import { Pagination } from "@/components/ui/table/Pagination";
 import { setStatusClientApi } from "@/core/api/clientApi";
@@ -7,18 +8,28 @@ import {
   Client,
   defaultClient,
   LoadingKeys,
+  ModalKeys,
   PaginationKeys,
 } from "@/core/domain";
 import { useFetchDispatch } from "@/core/hooks/useFetchDispatch";
-import { getClients } from "@/core/services";
+import { getClients, openModal, selectClient } from "@/core/services";
 import { useAppStore } from "@/core/stores/appStore";
 import { camelToReadable } from "@/core/utils";
-import { ActionButton } from "@/pages/Client/Components/ActionButton";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 const excludeField = ["id", "createdAt"];
 
 export const TableClient = () => {
   const { clients, isOpen } = useAppStore();
+
+  const onDelete = useCallback((client: Client) => {
+    selectClient(client);
+    openModal(ModalKeys.DELETE_CLIENT);
+  }, []);
+
+  const onUpdate = useCallback((client: Client) => {
+    selectClient(client);
+    openModal(ModalKeys.UPDATE_CLIENT);
+  }, []);
 
   const onChangeStatus = (id: string) => {
     setStatusClientApi(id);
@@ -37,7 +48,13 @@ export const TableClient = () => {
               key,
               label: camelToReadable(key),
               render: (_: unknown, data: Client) => (
-                <ActionButton client={data} />
+                <ActionButton
+                  data={data}
+                  showDeleteButton
+                  showUpdateButton
+                  onDelete={onDelete}
+                  onUpdate={onUpdate}
+                />
               ),
             } as unknown as Column<Client>;
 
@@ -64,7 +81,7 @@ export const TableClient = () => {
             } as unknown as Column<Client>;
         }
       });
-  }, []);
+  }, [onDelete, onUpdate]);
 
   useFetchDispatch(
     () => {

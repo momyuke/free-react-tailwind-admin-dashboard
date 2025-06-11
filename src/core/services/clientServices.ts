@@ -40,7 +40,7 @@ export const getClients = async ({ page, perPage }: PaginationRequest) => {
   } catch (e) {
     setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
     openModal(ModalKeys.GENERAL_MESSAGE);
-    console.log(e);
+    console.info(e);
   } finally {
     closeModal(LoadingKeys.LOADING_CLIENT);
   }
@@ -63,7 +63,7 @@ export const createClient = async (client: Client) => {
     openModal(ModalKeys.GENERAL_MESSAGE);
     getClientWithPagination();
   } catch (e) {
-    console.log(e);
+    console.info(e);
     setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
     openModal(ModalKeys.GENERAL_MESSAGE);
   } finally {
@@ -84,7 +84,7 @@ export const editClient = async (client: Client) => {
     getClientWithPagination();
     removeSelectedClient();
   } catch (e) {
-    console.log(e);
+    console.info(e);
     setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
     openModal(ModalKeys.GENERAL_MESSAGE);
   } finally {
@@ -109,7 +109,7 @@ export const deleteClient = async (id: string) => {
     getClientWithPagination();
     removeSelectedClient();
   } catch (e) {
-    console.log(e);
+    console.info(e);
     setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
     openModal(ModalKeys.GENERAL_MESSAGE);
   } finally {

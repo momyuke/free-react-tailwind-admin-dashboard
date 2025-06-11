@@ -13,6 +13,7 @@ export interface ModalStoreState {
 
 export interface AccountStoreState {
   accounts: User[];
+  selectedAccount?: User;
 }
 
 export interface ClientStoreState {
