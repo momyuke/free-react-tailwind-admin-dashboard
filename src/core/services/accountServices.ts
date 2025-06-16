@@ -1,4 +1,8 @@
-import { deleteAccountApi, getAccountsApi } from "@/core/api/accountApi";
+import {
+  changeStatusAccountApi,
+  deleteAccountApi,
+  getAccountsApi,
+} from "@/core/api/accountApi";
 import {
   GENERAL_ERROR_MESSAGE,
   LoadingKeys,
@@ -67,5 +71,18 @@ export const deleteAccount = async (id: string) => {
   } finally {
     closeModal(LoadingKeys.LOADING_CUD_ACCOUNT);
     closeModal(ModalKeys.DELETE_ACCOUNT);
+  }
+};
+
+export const changeStatusAccount = async (id: string) => {
+  openModal(LoadingKeys.LOADING_CUD_ACCOUNT);
+  try {
+    await changeStatusAccountApi(id);
+  } catch (e) {
+    console.info(e);
+    setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
+    openModal(ModalKeys.GENERAL_MESSAGE);
+  } finally {
+    closeModal(LoadingKeys.LOADING_CUD_ACCOUNT);
   }
 };

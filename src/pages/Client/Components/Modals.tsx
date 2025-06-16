@@ -143,7 +143,6 @@ export const DeleteClientModal = () => {
   return (
     <GeneralModal
       modalKey={ModalKeys.DELETE_CLIENT}
-      showCloseButton
       isAbleToEscape
       onClose={onClose}
     >
@@ -162,7 +161,7 @@ export const DeleteClientModal = () => {
           <Button
             onClick={onDelete}
             useVariant={false}
-            className="bg-red-500 text-white"
+            className="bg-pink-500 text-white"
           >
             Delete
           </Button>

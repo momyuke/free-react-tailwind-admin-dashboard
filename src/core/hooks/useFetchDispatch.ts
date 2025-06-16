@@ -6,8 +6,8 @@ interface UseFetchDispatchConditions {
 }
 
 export const useFetchDispatch = (
-  fn: Function,
-  deps: any[],
+  fn: () => void,
+  deps: unknown[],
   options: UseFetchDispatchConditions
 ) => {
   const didMountRef = useRef<boolean>(false);

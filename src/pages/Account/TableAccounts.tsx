@@ -11,7 +11,12 @@ import {
   User,
 } from "@/core/domain";
 import { useFetchDispatch } from "@/core/hooks/useFetchDispatch";
-import { getAccounts, openModal, selectAccount } from "@/core/services";
+import {
+  changeStatusAccount,
+  getAccounts,
+  openModal,
+  selectAccount,
+} from "@/core/services";
 import { useAppStore } from "@/core/stores/appStore";
 import { camelToReadable } from "@/core/utils";
 import { useCallback, useMemo } from "react";
@@ -50,12 +55,12 @@ export default function TableAccounts() {
             return {
               key,
               label: camelToReadable(key),
-              render(value) {
+              render(value, account) {
                 return (
                   <Switch
                     label=""
                     defaultChecked={value === 1}
-                    onChange={() => ""}
+                    onChange={() => changeStatusAccount(account.accountId)}
                   />
                 );
               },
@@ -94,9 +99,10 @@ export default function TableAccounts() {
   if (isOpen[LoadingKeys.LOADING_ACCOUNT]) {
     return <Loading />;
   }
+
   return (
     <div>
-      <GenericTable<User> data={accounts} columns={columns} />;
+      <GenericTable<User> data={accounts} columns={columns} />
       <Pagination key={PaginationKeys.ACCOUNT} onChange={onChange} />
     </div>
   );

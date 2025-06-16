@@ -24,3 +24,8 @@ export const deleteAccountApi = async (id: string) => {
   const response = await axiosApi.delete(`${ACCOUNT}/delete/${id}`);
   return response.data as ApiResponse<unknown>;
 };
+
+export const changeStatusAccountApi = async (id: string) => {
+  const response = await axiosApi.put(`${ACCOUNT}/status/${id}`);
+  return response.data as ApiResponse<unknown>;
+};

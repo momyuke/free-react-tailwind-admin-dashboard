@@ -16,9 +16,8 @@ export const PaginationKeys = {
 };
 
 /**
- * CUD stand for Create Update Delete
+ * @field CUD stand for Create Update Delete
  */
-
 export const LoadingKeys = {
   LOADING_CLIENT: "LOADING_CLIENT",
   LOADING_CUD_CLIENT: "LOADING_CUD_CLIENT",
