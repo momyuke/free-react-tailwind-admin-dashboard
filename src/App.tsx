@@ -22,6 +22,7 @@ import Buttons from "./pages/UiElements/Buttons";
 import Images from "./pages/UiElements/Images";
 import Videos from "./pages/UiElements/Videos";
 import UserProfiles from "./pages/UserProfiles";
+import Project from "./pages/Project/Project";
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
 
               {/* Tables */}
               <Route path="/basic-tables" element={<BasicTables />} />
+              <Route path="/project" element={<Project />} />
               <Route path="/client" element={<Client />} />
               <Route path="/accounts" element={<Account />} />
 
