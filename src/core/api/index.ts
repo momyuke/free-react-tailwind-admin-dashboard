@@ -16,7 +16,7 @@ const onErrorResponse = (err: any) => {
   const { response } = err as AxiosError;
   console.log(response);
   const data = response?.data as ApiResponse<any>;
-  setMessage(ModalKeys.GENERAL_MESSAGE, data.message ?? GENERAL_ERROR_MESSAGE);
+  setMessage(ModalKeys.GENERAL_MESSAGE, data?.message ?? GENERAL_ERROR_MESSAGE);
   openModal(ModalKeys.GENERAL_MESSAGE);
   if (response?.status === 401) {
     logout();
@@ -25,6 +25,10 @@ const onErrorResponse = (err: any) => {
   return Promise.reject(err);
 };
 
+
+/**
+ * Response would be changed from snake_case format to be camelCase format
+ */
 const onResponse = (respone: AxiosResponse<unknown, unknown>) => {
   const responseApi = JSON.parse(
     JSON.stringify(respone.data)

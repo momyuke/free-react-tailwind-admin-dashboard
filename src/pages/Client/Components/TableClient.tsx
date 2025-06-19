@@ -102,7 +102,7 @@ export const TableClient = () => {
   return (
     <div>
       <GenericTable<Client> data={clients} columns={columns} />
-      <Pagination key={PaginationKeys.CLIENT} onChange={onChange} />
+      <Pagination paginationKey={PaginationKeys.CLIENT} onChange={onChange} />
     </div>
   );
 };

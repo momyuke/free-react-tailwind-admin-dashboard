@@ -3,33 +3,33 @@ import { useAppStore } from "@/core/stores/appStore";
 
 interface PaginationProps {
   onChange: (page: number, perPage: number) => void;
-  key: string;
+  paginationKey: string;
 }
 
 const PER_PAGE_OPTIONS = [5, 10, 20, 50];
 
 export const Pagination = (props: PaginationProps) => {
   const { paginations } = useAppStore();
-  const selectedPagination = paginations[props.key];
+  const selectedPagination = paginations[props.paginationKey];
   const { page, perPage, count } = selectedPagination ?? {
     page: 1,
     perPage: 10,
     count: 0,
-  };
+  }
   const totalPages = Math.round(count / perPage);
 
   const goToPage = (newPage: number) => {
     props.onChange(newPage, perPage);
-    setPagination({ key: props.key, perPage, page: newPage, count });
+    setPagination({ key: props.paginationKey, perPage, page: newPage, count });
   };
 
   const changePerPage = (newPerPage: number) => {
     props.onChange(page, newPerPage);
-    setPagination({ key: props.key, perPage: newPerPage, page: page, count });
+    setPagination({ key: props.paginationKey, perPage: newPerPage, page: page, count });
   };
 
   return (
-    <div className="flex items-center gap-2 p-4 bg-white dark:bg-gray-800 x justify-end pr-20 mt-5">
+    <div className="flex flex-col sm:flex-row items-center gap-2 p-4 bg-white dark:bg-gray-800 x justify-end lg:pr-20 mt-5">
       {/* Per Page Dropdown */}
       <div className="flex items-center gap-2">
         <label className="text-sm text-gray-600 dark:text-gray-300">
@@ -48,7 +48,8 @@ export const Pagination = (props: PaginationProps) => {
         </select>
       </div>
 
-      <button
+      <div className="flex gap-2">
+        <button
         className="px-3 py-1 dark:text-white rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition disabled:opacity-50"
         onClick={() => goToPage(1)}
         disabled={page === 1}
@@ -83,6 +84,7 @@ export const Pagination = (props: PaginationProps) => {
       >
         ⏭
       </button>
+      </div>
     </div>
   );
 };

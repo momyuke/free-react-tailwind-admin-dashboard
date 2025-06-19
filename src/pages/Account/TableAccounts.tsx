@@ -103,7 +103,7 @@ export default function TableAccounts() {
   return (
     <div>
       <GenericTable<User> data={accounts} columns={columns} />
-      <Pagination key={PaginationKeys.ACCOUNT} onChange={onChange} />
+      <Pagination paginationKey={PaginationKeys.ACCOUNT} onChange={onChange} />
     </div>
   );
 }

@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Client } from "@/core/domain/clientDomain";
+import { IProject } from "@/core/domain/projectDomain";
 import { User } from "@/core/domain/userDomain";
 
 export interface AuthStoreState {
@@ -21,6 +23,11 @@ export interface ClientStoreState {
   selectedClient?: Client;
 }
 
+export interface ProjectStoreState {
+  projects: IProject[];
+  selectedProject?: IProject;
+}
+
 export interface PaginationStoreState {
   paginations: any;
 }
@@ -29,4 +36,5 @@ export type AppStoreState = ModalStoreState &
   AccountStoreState &
   AuthStoreState &
   ClientStoreState &
-  PaginationStoreState;
+  PaginationStoreState &
+  ProjectStoreState;

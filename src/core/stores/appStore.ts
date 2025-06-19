@@ -4,6 +4,7 @@ import { createAuthStore } from "@/core/stores/authStore";
 import { createClientStore } from "@/core/stores/clientStore";
 import { createModalStore } from "@/core/stores/modalStore";
 import { createPaginationStore } from "@/core/stores/paginationStore";
+import { createProjectStore } from "@/core/stores/projectStore";
 import { create } from "zustand";
 
 export const useAppStore = create<AppStoreState>(() => ({
@@ -12,4 +13,5 @@ export const useAppStore = create<AppStoreState>(() => ({
   ...createAccountStore(),
   ...createClientStore(),
   ...createPaginationStore(),
+  ...createProjectStore(),
 }));
