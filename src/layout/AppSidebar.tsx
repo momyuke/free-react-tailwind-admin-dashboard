@@ -60,6 +60,11 @@ const navItems: NavItem[] = [
     path: "/accounts",
   },
   {
+    name: "Project",
+    icon: <UserCircleIcon />,
+    path: "/project",
+  },
+  {
     name: "Pages",
     icon: <PageIcon />,
     subItems: [
