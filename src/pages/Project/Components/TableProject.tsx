@@ -5,39 +5,40 @@ import { Column, GenericTable } from "@/components/ui/table/GenericTable";
 import { Pagination } from "@/components/ui/table/Pagination";
 import { setStatusClientApi } from "@/core/api/clientApi";
 import {
-  Client,
-  defaultClient,
+  IProject,
   LoadingKeys,
   ModalKeys,
   PaginationKeys,
+  projectDefault
 } from "@/core/domain";
 import { useFetchDispatch } from "@/core/hooks/useFetchDispatch";
-import { getClients, openModal, selectClient } from "@/core/services";
+import { openModal } from "@/core/services";
+import { getProjects, selectProject } from "@/core/services/projectServices";
 import { useAppStore } from "@/core/stores/appStore";
 import { camelToReadable } from "@/core/utils";
 import { useCallback, useMemo } from "react";
 const excludeField = ["id", "createdAt"];
 
-export const TableClient = () => {
-  const { clients, isOpen } = useAppStore();
+export const TableProject = () => {
+  const { projects, isOpen } = useAppStore();
 
-  const onDelete = useCallback((client: Client) => {
-    selectClient(client);
-    openModal(ModalKeys.DELETE_CLIENT);
+  const onDelete = useCallback((project: IProject) => {
+    selectProject(project);
+    openModal(ModalKeys.DELETE_PROJECT);
   }, []);
 
-  const onUpdate = useCallback((client: Client) => {
-    selectClient(client);
-    openModal(ModalKeys.UPDATE_CLIENT);
+  const onUpdate = useCallback((project: IProject) => {
+    selectProject(project);
+    openModal(ModalKeys.UPDATE_PROJECT);
   }, []);
 
   const onChangeStatus = (id: string) => {
     setStatusClientApi(id);
   };
 
-  const columns: Column<Client>[] = useMemo(() => {
+  const columns: Column<IProject>[] = useMemo(() => {
     return Object.keys({
-      ...defaultClient,
+      ...projectDefault,
       ...{ action: "" },
     })
       .filter((e) => !excludeField.includes(e))
@@ -47,8 +48,8 @@ export const TableClient = () => {
             return {
               key,
               label: camelToReadable(key),
-              render: (_: unknown, data: Client) => (
-                <ActionButton
+              render: (_: unknown, data: IProject) => (
+                <ActionButton<IProject>
                   data={data}
                   showDeleteButton
                   showUpdateButton
@@ -56,18 +57,18 @@ export const TableClient = () => {
                   onUpdate={onUpdate}
                 />
               ),
-            } as unknown as Column<Client>;
+            } as unknown as Column<IProject>;
 
           case "isActive":
             return {
               key,
               label: camelToReadable(key),
-              render(value, client) {
+              render(value, project) {
                 return (
                   <Switch
                     label=""
                     defaultChecked={value === 1}
-                    onChange={() => onChangeStatus(client.id)}
+                    onChange={() => onChangeStatus(project.id)}
                   />
                 );
               },
@@ -78,21 +79,21 @@ export const TableClient = () => {
               key,
               label: camelToReadable(key),
               render: null,
-            } as unknown as Column<Client>;
+            } as unknown as Column<IProject>;
         }
       });
   }, [onDelete, onUpdate]);
 
   useFetchDispatch(
     () => {
-      getClients({ page: 1, perPage: 10 });
+      getProjects({ page: 1, perPage: 10 });
     },
     [],
     { componentDidMounted: true }
   );
 
   const onChange = (page: number, perPage: number) => {
-    getClients({ page, perPage });
+    getProjects({ page, perPage });
   };
 
   if (isOpen[LoadingKeys.LOADING_CLIENT]) {
@@ -101,8 +102,8 @@ export const TableClient = () => {
 
   return (
     <div>
-      <GenericTable<Client> data={clients} columns={columns} />
-      <Pagination key={PaginationKeys.CLIENT} onChange={onChange} />
+      <GenericTable<IProject> data={projects} columns={columns} />
+      <Pagination paginationKey={PaginationKeys.PROJECT} onChange={onChange} />
     </div>
   );
 };

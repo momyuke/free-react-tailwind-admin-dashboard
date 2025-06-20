@@ -6,7 +6,7 @@ import { useCallback } from "react";
 
 export const AddButton = () => {
   const onClick = useCallback(() => {
-    openModal(ModalKeys.ADD_CLIENT);
+    openModal(ModalKeys.ADD_PROJECT);
   }, []);
   return (
     <div className="flex justify-end ">

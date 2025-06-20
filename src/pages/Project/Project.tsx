@@ -5,10 +5,9 @@ import { LoadingModal } from "@/components/modal";
 import { LoadingKeys, ModalKeys } from "@/core/domain";
 import {
   AddButton,
-  AddOrEditClientModal,
-  DeleteClientModal,
-  TableClient,
+  TableClient
 } from "@/pages/Client/Components";
+import { AddOrEditProjectModal, DeleteProjectModal } from "@/pages/Project/Components";
 
 export default function Project() {
   return (
@@ -24,11 +23,11 @@ export default function Project() {
           <TableClient />
         </ComponentCard>
       </div>
-      <AddOrEditClientModal type={ModalKeys.ADD_CLIENT} />
-      <AddOrEditClientModal type={ModalKeys.UPDATE_CLIENT} />
-      <DeleteClientModal />
+      <AddOrEditProjectModal type={ModalKeys.ADD_PROJECT} />
+      <AddOrEditProjectModal type={ModalKeys.UPDATE_PROJECT} />
+      <DeleteProjectModal />
       <LoadingModal
-        loadingKey={LoadingKeys.LOADING_CUD_CLIENT}
+        loadingKey={LoadingKeys.LOADING_CUD_PROJECT}
         isAbleToEscape={false}
       />
     </>

@@ -1,3 +1,4 @@
 export { AddButton } from "./AddButton";
-export { AddOrEditProjectModal as AddOrEditClientModal, DeleteProjectModal as DeleteClientModal } from "./Modals";
-export { TableClient } from "./TableProject";
+export { AddOrEditProjectModal, DeleteProjectModal } from "./Modals";
+export { TableProject as TableClient } from "./TableProject";
+
