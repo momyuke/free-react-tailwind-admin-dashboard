@@ -6,7 +6,7 @@ import { useCallback } from "react";
 
 export const AddButton = () => {
   const onClick = useCallback(() => {
-    openModal(ModalKeys.ADD_CLIENT);
+    openModal(ModalKeys.ADD_PROJECT);
   }, []);
   return (
     <div className="flex justify-end ">
@@ -16,7 +16,7 @@ export const AddButton = () => {
         onClick={onClick}
         startIcon={<BoxIcon className="size-5" />}
       >
-        Add Client
+        Add Project
       </Button>
     </div>
   );

@@ -2,7 +2,7 @@ import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import { FormEventHandler, HTMLInputTypeAttribute } from "react";
 
-export type Input<T> = {
+export type IInput<T> = {
   key: keyof T;
   label?: string;
   placeholder?: string;
@@ -12,19 +12,19 @@ export type Input<T> = {
 
 type GenericFormProps<T> = {
   data?: T;
-  columns?: Input<T>[];
+  inputs?: IInput<T>[];
   onSubmit: FormEventHandler | undefined;
 };
 
 export function GenericForm<T>({
   data,
-  columns,
+  inputs,
   onSubmit,
 }: GenericFormProps<T>) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] max-w-full overflow-x-auto">
-      <form onSubmit={onSubmit} className="">
-        {columns?.map((input) => {
+    <div className="rounded-xl bg-white dark:border-white/[0.05] dark:bg-white/[0.03] max-w-full overflow-x-auto">
+      <form  onSubmit={onSubmit} className="flex flex-col gap-5 mt-10">
+        {inputs?.map((input) => {
           if (input.render) {
             return input.render;
           }
@@ -35,8 +35,8 @@ export function GenericForm<T>({
               <Input
                 type={input.type ?? "text"}
                 name={String(input.key)}
-                defaultValue={String(data?.[input.key])}
-                placeholder={input.placeholder}
+                defaultValue={String(data?.[input.key] ?? '')}
+                placeholder={input.placeholder ?? 'Input the value here'}
                 required
               />
             </div>

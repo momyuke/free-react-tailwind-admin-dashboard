@@ -4,10 +4,10 @@ import PageMeta from "@/components/common/PageMeta";
 import { LoadingModal } from "@/components/modal";
 import { LoadingKeys, ModalKeys } from "@/core/domain";
 import {
-  AddButton,
-  TableClient
+  AddButton
 } from "@/pages/Client/Components";
 import { AddOrEditProjectModal, DeleteProjectModal } from "@/pages/Project/Components";
+import { TableProject } from "@/pages/Project/Components/TableProject";
 
 export default function Project() {
   return (
@@ -20,7 +20,7 @@ export default function Project() {
       <div className="w-full space-y-6">
         <ComponentCard title="List Project">
           <AddButton />
-          <TableClient />
+          <TableProject />
         </ComponentCard>
       </div>
       <AddOrEditProjectModal type={ModalKeys.ADD_PROJECT} />

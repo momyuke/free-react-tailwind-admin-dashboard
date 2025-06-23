@@ -96,7 +96,7 @@ export const TableProject = () => {
     getProjects({ page, perPage });
   };
 
-  if (isOpen[LoadingKeys.LOADING_CLIENT]) {
+  if (isOpen[LoadingKeys.LOADING_PROJECT]) {
     return <Loading />;
   }
 
