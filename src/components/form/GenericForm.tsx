@@ -1,5 +1,7 @@
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
+import Button from "@/components/ui/button/Button";
+import { BoxIcon } from "@/icons";
 import { FormEventHandler, HTMLInputTypeAttribute } from "react";
 
 export type IInput<T> = {
@@ -14,19 +16,26 @@ type GenericFormProps<T> = {
   data?: T;
   inputs?: IInput<T>[];
   onSubmit: FormEventHandler | undefined;
+  wordingButton?: string;
 };
 
 export function GenericForm<T>({
   data,
   inputs,
   onSubmit,
+  wordingButton = 'Submit'
 }: GenericFormProps<T>) {
   return (
     <div className="rounded-xl bg-white dark:border-white/[0.05] dark:bg-white/[0.03] max-w-full overflow-x-auto">
-      <form  onSubmit={onSubmit} className="flex flex-col gap-5 mt-10">
+      <form onSubmit={onSubmit} className="flex flex-col gap-5 mt-10">
         {inputs?.map((input) => {
           if (input.render) {
-            return input.render;
+            return (
+              <div>
+                <Label htmlFor={String(input.key)}>{input.label}</Label>
+                {input.render}
+              </div>
+            );
           }
 
           return (
@@ -35,13 +44,23 @@ export function GenericForm<T>({
               <Input
                 type={input.type ?? "text"}
                 name={String(input.key)}
-                defaultValue={String(data?.[input.key] ?? '')}
-                placeholder={input.placeholder ?? 'Input the value here'}
+                defaultValue={String(data?.[input.key] ?? "")}
+                placeholder={input.placeholder ?? "Input the value here"}
                 required
               />
             </div>
           );
         })}
+
+        <div className="flex justify-end mt-10">
+          <Button
+            size="md"
+            type="submit"
+            startIcon={<BoxIcon className="size-5" />}
+          >
+            {wordingButton}
+          </Button>
+        </div>
       </form>
     </div>
   );

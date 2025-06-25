@@ -3,21 +3,20 @@ import Switch from "@/components/form/switch/Switch";
 import { ActionButton } from "@/components/ui/button/ActionButton";
 import { Column, GenericTable } from "@/components/ui/table/GenericTable";
 import { Pagination } from "@/components/ui/table/Pagination";
-import { setStatusClientApi } from "@/core/api/clientApi";
 import {
   IProject,
   LoadingKeys,
   ModalKeys,
   PaginationKeys,
-  projectDefault
+  projectDefault,
 } from "@/core/domain";
 import { useFetchDispatch } from "@/core/hooks/useFetchDispatch";
 import { openModal } from "@/core/services";
-import { getProjects, selectProject } from "@/core/services/projectServices";
+import { getProjects, selectProject, setStatusActiveProject } from "@/core/services/projectServices";
 import { useAppStore } from "@/core/stores/appStore";
 import { camelToReadable } from "@/core/utils";
 import { useCallback, useMemo } from "react";
-const excludeField = ["id", "createdAt"];
+const excludeField = ["id", "createdAt", "clientId"];
 
 export const TableProject = () => {
   const { projects, isOpen } = useAppStore();
@@ -33,7 +32,7 @@ export const TableProject = () => {
   }, []);
 
   const onChangeStatus = (id: string) => {
-    setStatusClientApi(id);
+    setStatusActiveProject(id);
   };
 
   const columns: Column<IProject>[] = useMemo(() => {
@@ -72,8 +71,9 @@ export const TableProject = () => {
                   />
                 );
               },
-            };
+            } ;
 
+          
           default:
             return {
               key,

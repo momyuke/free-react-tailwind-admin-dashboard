@@ -39,36 +39,42 @@ export function GenericTable<T extends object>({
         <Table className=" ">
           <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
-              {headers.map((value, idx) => (
-                <TableCell
-                  key={idx}
-                  isHeader
-                  className="px-4 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400 "
-                >
-                  {value.label ?? String(value.key)}
-                </TableCell>
-              ))}
+              {headers.map((value, idx) => {
+                if (!value.key) return;
+                return (
+                  <TableCell
+                    key={idx}
+                    isHeader
+                    className="px-4 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400 "
+                  >
+                    {value.label ?? String(value.key)}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           </TableHeader>
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-            {data?.map((row, idx) => (
-              <TableRow key={idx}>
-                {headers.map((col) => {
-                  const key = col.key as keyof T;
-                  const cellValue = row[key];
-                  return (
-                    <TableCell
-                      key={String(col.key)}
-                      className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400"
-                    >
-                      {col.render
-                        ? col.render(row[col.key], row)
-                        : String(cellValue)}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))}
+            {data?.map((row, idx) => {
+              return (
+                <TableRow key={idx}>
+                  {headers.map((col) => {
+                    const key = col.key as keyof T;
+                    const cellValue = row[key];
+                    if (!key) return;
+                    return (
+                      <TableCell
+                        key={String(col.key)}
+                        className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400"
+                      >
+                        {col.render
+                          ? col.render(row[col.key], row)
+                          : String(cellValue)}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

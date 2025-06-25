@@ -1,17 +1,18 @@
 import { UIEvent, useState } from "react";
 
-interface Option {
+export interface SelectOption {
   value: string;
   label: string;
 }
 
 interface SelectProps {
-  options: Option[];
+  options: SelectOption[];
   placeholder?: string;
   onChange: (value: string) => void;
   className?: string;
   defaultValue?: string;
-  onMaxScroll: () => void
+  name?: string;
+  onMaxScroll?: () => void
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -20,6 +21,7 @@ const Select: React.FC<SelectProps> = ({
   onChange,
   className = "",
   defaultValue = "",
+  name,
   onMaxScroll
 }) => {
   // Manage the selected value
@@ -48,6 +50,7 @@ const Select: React.FC<SelectProps> = ({
       value={selectedValue}
       onChange={handleChange}
       onScroll={onScroll}
+      name={name}
     >
       {/* Placeholder option */}
       <option
@@ -62,7 +65,6 @@ const Select: React.FC<SelectProps> = ({
         <option
           key={option.value}
           value={option.value}
-
           className="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
         >
           {option.label}

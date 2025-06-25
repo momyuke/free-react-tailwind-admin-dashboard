@@ -3,10 +3,8 @@ import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import PageMeta from "@/components/common/PageMeta";
 import { LoadingModal } from "@/components/modal";
 import { LoadingKeys, ModalKeys } from "@/core/domain";
-import {
-  AddButton
-} from "@/pages/Client/Components";
-import { AddOrEditProjectModal, DeleteProjectModal } from "@/pages/Project/Components";
+
+import { AddButton, AddOrEditProjectModal, DeleteProjectModal } from "@/pages/Project/Components";
 import { TableProject } from "@/pages/Project/Components/TableProject";
 
 export default function Project() {

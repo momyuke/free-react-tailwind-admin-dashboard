@@ -1,50 +1,50 @@
 import { GenericForm, IInput } from "@/components/form/GenericForm";
+import Select, { SelectOption } from "@/components/form/Select";
 import { GeneralModal } from "@/components/modal";
 import Button from "@/components/ui/button/Button";
-import { Client, IProject, ModalKeys, projectDefault } from "@/core/domain";
 import {
-  closeModal,
-  createClient,
-  deleteClient,
-  editClient,
-  removeSelectedClient,
+  EProjectStatus,
+  EProjectType,
+  IProject,
+  ModalKeys,
+  projectDefault
+} from "@/core/domain";
+import {
+  closeModal
 } from "@/core/services";
-import { removeSelectedProject } from "@/core/services/projectServices";
+import {
+  createProject,
+  deleteProject,
+  editProject,
+  removeSelectedProject,
+} from "@/core/services/projectServices";
 import { useAppStore } from "@/core/stores/appStore";
 import { camelToReadable, getTypedFormData } from "@/core/utils";
-import { BoxIcon } from "@/icons";
+import { SelectClient } from "@/pages/Project/Components/SelectClient";
 import { FormEvent, useCallback } from "react";
 
-interface AddOrEditClientModalProps {
+interface AddOrEditProjectModalProps {
   type: string;
 }
 
-export const AddOrEditProjectModal = ({ type }: AddOrEditClientModalProps) => {
+export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
   const { selectedProject } = useAppStore();
   const isAdd = type === ModalKeys.ADD_PROJECT;
   const wordingTitle = isAdd ? "Add" : "Edit";
   const wordingButtonSubmit = isAdd ? "Add Project" : "Save Changes";
-  const excludeFields = [
-    "isActive",
-    "createdAt",
-    "createdBy",
-    "id",
-    "clientId",
-  ];
+  const excludeFields = ["isActive", "createdAt", "createdBy", "id"];
 
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const data = new FormData(e.currentTarget ?? undefined);
       console.log(data.get("id"));
-      const client: Client = getTypedFormData<Client>(data, {
-        allowAsIsKey: ["phoneNumber"],
-      });
+      const project: IProject = getTypedFormData<IProject>(data);
       if (isAdd) {
-        return createClient(client);
+        return createProject(project);
       }
-      client.id = selectedProject?.id ?? "";
-      return editClient(client);
+      project.id = selectedProject?.id ?? "";
+      return editProject(project);
     },
     [isAdd, selectedProject?.id]
   );
@@ -53,12 +53,59 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditClientModalProps) => {
     removeSelectedProject();
   };
 
+  const optionSelectStatus = Object.values(EProjectStatus).map((e) => {
+    return {
+      label: e,
+      value: e,
+    } as SelectOption;
+  });
+
+  const typeSelectStatus = Object.values(EProjectType).map((e) => {
+    return {
+      label: e,
+      value: e,
+    } as SelectOption;
+  });
+
   const inputs = Object.entries(projectDefault)
     .filter(([key]) => !excludeFields.includes(key))
     .map(([key, value]) => {
       switch (key) {
         case "status":
-          return {};
+          return {
+            key,
+            label: camelToReadable(key),
+            render: (
+              <Select
+                name="status"
+                options={optionSelectStatus}
+                
+                defaultValue={selectedProject?.status}
+                onChange={() => ""}
+              />
+            ),
+          };
+
+        case "type":
+          return {
+            key,
+            label: camelToReadable(key),
+            render: (
+              <Select
+                name="type"
+                options={typeSelectStatus}
+                defaultValue={selectedProject?.type}
+                onChange={() => ""}
+              />
+            ),
+          };
+
+        case "clientId":
+          return {
+            key,
+            label: camelToReadable(key),
+            render: <SelectClient defaultValue={selectedProject?.clientId}/>,
+          };
         default:
           return {
             key: key,
@@ -66,7 +113,7 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditClientModalProps) => {
             type: typeof value,
           } as IInput<IProject>;
       }
-    });
+    }) as unknown as IInput<IProject>[];
 
   return (
     <GeneralModal
@@ -77,44 +124,40 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditClientModalProps) => {
     >
       <p>{wordingTitle} Project</p>
 
-      <GenericForm onSubmit={onSubmit} inputs={inputs} data={selectedProject} />
-      <div className="flex justify-end mt-10">
-        <Button
-          size="md"
-          type="submit"
-          startIcon={<BoxIcon className="size-5" />}
-        >
-          {wordingButtonSubmit}
-        </Button>
-      </div>
+      <GenericForm
+        onSubmit={onSubmit}
+        inputs={inputs}
+        data={selectedProject}
+        wordingButton={wordingButtonSubmit}
+      />
     </GeneralModal>
   );
 };
 
 export const DeleteProjectModal = () => {
-  const { selectedClient } = useAppStore();
+  const { selectedProject } = useAppStore();
 
   const onClose = () => {
-    removeSelectedClient();
+    removeSelectedProject();
   };
 
   const onCancel = () => {
-    closeModal(ModalKeys.DELETE_CLIENT);
+    closeModal(ModalKeys.DELETE_PROJECT);
   };
 
   const onDelete = () => {
-    deleteClient(selectedClient?.id ?? "");
+    deleteProject(selectedProject?.id ?? "");
   };
 
   return (
     <GeneralModal
-      modalKey={ModalKeys.DELETE_CLIENT}
+      modalKey={ModalKeys.DELETE_PROJECT}
       isAbleToEscape
       onClose={onClose}
     >
       <div className="mt-10">
         <h2 className="text-lg">
-          Are you sure want to delete project {selectedClient?.name}
+          Are you sure want to delete project {selectedProject?.clientId}
         </h2>
         <div className="flex justify-end mt-6 gap-3">
           <Button
