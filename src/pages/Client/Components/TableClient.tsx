@@ -48,7 +48,7 @@ export const TableClient = () => {
               key,
               label: camelToReadable(key),
               render: (_: unknown, data: Client) => (
-                <ActionButton
+                <ActionButton<Client>
                   data={data}
                   showDeleteButton
                   showUpdateButton
