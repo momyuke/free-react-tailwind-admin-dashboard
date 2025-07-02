@@ -26,9 +26,11 @@ export function GenericForm<T>({
   wordingButton = 'Submit'
 }: GenericFormProps<T>) {
   return (
-    <div className="rounded-xl bg-white dark:border-white/[0.05] dark:bg-white/[0.03] max-w-full overflow-x-auto">
+    <div className="rounded-xl max-w-full overflow-x-auto">
       <form onSubmit={onSubmit} className="flex flex-col gap-5 mt-10">
         {inputs?.map((input) => {
+        const defaultPlaceholder = input.type === 'number' ? '1234' : 'Input the value here';
+
           if (input.render) {
             return (
               <div>
@@ -45,7 +47,7 @@ export function GenericForm<T>({
                 type={input.type ?? "text"}
                 name={String(input.key)}
                 defaultValue={String(data?.[input.key] ?? "")}
-                placeholder={input.placeholder ?? "Input the value here"}
+                placeholder={input.placeholder ?? defaultPlaceholder}
                 required
               />
             </div>

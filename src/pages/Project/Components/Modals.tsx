@@ -106,6 +106,7 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
             label: camelToReadable(key),
             render: <SelectClient defaultValue={selectedProject?.clientId}/>,
           };
+          
         default:
           return {
             key: key,
