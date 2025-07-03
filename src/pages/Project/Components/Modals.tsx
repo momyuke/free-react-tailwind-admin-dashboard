@@ -1,5 +1,6 @@
 import DatePicker from "@/components/form/date-picker";
 import { GenericForm, IInput } from "@/components/form/GenericForm";
+import Input from "@/components/form/input/InputField";
 import Select, { SelectOption } from "@/components/form/Select";
 import { GeneralModal } from "@/components/modal";
 import Button from "@/components/ui/button/Button";
@@ -20,9 +21,14 @@ import {
   removeSelectedProject,
 } from "@/core/services/projectServices";
 import { useAppStore } from "@/core/stores/appStore";
-import { camelToReadable, getTypedFormData } from "@/core/utils";
+import {
+  camelToReadable,
+  formatCurrency,
+  getTypedFormData,
+  parseCurrency,
+} from "@/core/utils";
 import { SelectClient } from "@/pages/Project/Components/SelectClient";
-import { FormEvent, useCallback } from "react";
+import { ChangeEvent, FormEvent, useCallback } from "react";
 
 interface AddOrEditProjectModalProps {
   type: string;
@@ -45,6 +51,9 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const data = new FormData(e.currentTarget ?? undefined);
+      let cost = data.get("cost") as string;
+      cost = cost.split("Rp. ")[1];
+      data.set("cost", String(parseCurrency(cost)));
       const project: IProject = getTypedFormData<IProject>(data);
       if (isAdd) {
         return createProject(project);
@@ -73,6 +82,13 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
     } as SelectOption;
   });
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/[^\d]/g, ""); // Remove non-digit
+    const numericValue = parseInt(rawValue || "0", 10);
+    const formatted = formatCurrency(numericValue);
+    e.target.value = "Rp. " + formatted;
+  };
+
   const inputs = Object.entries(projectDefault)
     .filter(([key]) => !excludeFields.includes(key))
     .map(([key, value]) => {
@@ -88,6 +104,25 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
                 defaultValue={selectedProject?.status}
                 onChange={() => ""}
               />
+            ),
+          };
+
+        case "cost":
+          return {
+            key,
+            label: camelToReadable(key),
+            render: (
+              <>
+                <Input
+                  onChange={handleChange}
+                  name={String(key)}
+                  defaultValue={
+                    "Rp. " + formatCurrency(selectedProject?.cost ?? 0)
+                  }
+                  placeholder={"0"}
+                  required
+                />
+              </>
             ),
           };
 
@@ -236,7 +271,7 @@ export const DeleteProjectModal = () => {
     >
       <div className="mt-10">
         <h2 className="text-lg">
-          Are you sure want to delete project {selectedProject?.clientId}
+          Are you sure want to delete project {selectedProject?.id}
         </h2>
         <div className="flex justify-end mt-6 gap-3">
           <Button

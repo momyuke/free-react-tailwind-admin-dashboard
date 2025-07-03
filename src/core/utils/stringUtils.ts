@@ -22,3 +22,12 @@ export const camelToReadable = (camelCaseString: string) => {
     .replace(/([a-z])([A-Z])/g, "$1 $2");
   return result.charAt(0).toUpperCase() + result.slice(1);
 };
+
+export const formatCurrency = (number: number) => {
+  const formatter = new Intl.NumberFormat("id-ID");
+  return formatter.format(number);
+};
+
+export const parseCurrency = (formatted: string) => {
+  return parseInt(formatted.replace(/[^\d]/g, ""), 10) || 0;
+};

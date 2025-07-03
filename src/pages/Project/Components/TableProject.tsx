@@ -19,9 +19,9 @@ import {
   setStatusActiveProject,
 } from "@/core/services/projectServices";
 import { useAppStore } from "@/core/stores/appStore";
-import { camelToReadable } from "@/core/utils";
+import { camelToReadable, formatCurrency } from "@/core/utils";
 import { useCallback, useMemo } from "react";
-const excludeField = ["id", "createdAt", "clientId"];
+const excludeField = ["id", "createdAt", "clientId", "createdBy"];
 
 export const TableProject = () => {
   const { projects, isOpen } = useAppStore();
@@ -102,6 +102,15 @@ export const TableProject = () => {
               },
             };
 
+          case "cost":
+            return {
+              key,
+              label: camelToReadable(key),
+              render(_, project) {
+                return <p>Rp. {formatCurrency(project.cost)}</p>;
+              },
+            };
+
           default:
             return {
               key,
@@ -110,7 +119,7 @@ export const TableProject = () => {
             } as unknown as Column<IProject>;
         }
       });
-  }, [onDelete, onUpdate]);
+  }, [onCreateInvoice, onDelete, onUpdate]);
 
   useFetchDispatch(
     () => {
