@@ -10,6 +10,7 @@ export type IInput<T> = {
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
   render?: React.ReactNode;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 type GenericFormProps<T> = {
@@ -18,7 +19,7 @@ type GenericFormProps<T> = {
   onSubmit: FormEventHandler | undefined;
   wordingButton?: string;
   classNames?: string;
-  isOverflow?: boolean
+  isOverflow?: boolean;
 };
 
 export function GenericForm<T>({
@@ -27,13 +28,18 @@ export function GenericForm<T>({
   onSubmit,
   classNames,
   isOverflow = true,
-  wordingButton = 'Submit'
+  wordingButton = "Submit",
 }: GenericFormProps<T>) {
   return (
-    <div className={`rounded-xl max-w-full ${isOverflow && 'overflow-x-auto'}  ${classNames}`}>
+    <div
+      className={`rounded-xl max-w-full ${
+        isOverflow && "overflow-x-auto"
+      }  ${classNames}`}
+    >
       <form onSubmit={onSubmit} className="flex flex-col gap-5 mt-10">
         {inputs?.map((input) => {
-        const defaultPlaceholder = input.type === 'number' ? '1234' : 'Input the value here';
+          const defaultPlaceholder =
+            input.type === "number" ? "1234" : "Input the value here";
 
           if (input.render) {
             return (
@@ -48,6 +54,7 @@ export function GenericForm<T>({
             <div>
               <Label htmlFor={String(input.key)}>{input.label}</Label>
               <Input
+                onChange={input.onChange}
                 type={input.type ?? "text"}
                 name={String(input.key)}
                 defaultValue={String(data?.[input.key] ?? "")}

@@ -33,7 +33,13 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
   const isAdd = type === ModalKeys.ADD_PROJECT;
   const wordingTitle = isAdd ? "Add" : "Edit";
   const wordingButtonSubmit = isAdd ? "Add Project" : "Save Changes";
-  const excludeFields = ["isActive", "createdAt", "createdBy", "id"];
+  const excludeFields = [
+    "isActive",
+    "createdAt",
+    "createdBy",
+    "id",
+    "clientName",
+  ];
 
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
@@ -102,7 +108,7 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
         case "clientId":
           return {
             key,
-            label: camelToReadable(key),
+            label: "Client",
             render: <SelectClient defaultValue={selectedProject?.clientId} />,
           };
 
@@ -111,6 +117,11 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
             key: key,
             label: camelToReadable(key),
             type: typeof value,
+            onChange: (e) => {
+              if (typeof value == "number") {
+                if (parseInt(e.target.value) < 0) e.target.value = "0";
+              }
+            },
           } as IInput<IProject>;
       }
     }) as unknown as IInput<IProject>[];
@@ -137,13 +148,16 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
 export const CreateInvoiceModal = () => {
   const includedField = ["dueDate", "description"];
   const { selectedProject } = useAppStore();
-  const onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget ?? undefined);
-    const invoice: IInvoice = getTypedFormData<IInvoice>(data);
-    invoice.projectId = selectedProject?.id;
-    return createInvoice(invoice);
-  }, []);
+  const onSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const data = new FormData(e.currentTarget ?? undefined);
+      const invoice: IInvoice = getTypedFormData<IInvoice>(data);
+      invoice.projectId = selectedProject?.id;
+      return createInvoice(invoice);
+    },
+    [selectedProject?.id]
+  );
 
   const onClose = () => {
     removeSelectedProject();

@@ -9,10 +9,12 @@ export interface IProject {
   mandays: number;
   status: string;
   type: string;
+  clientName?: string;
 }
 
 export const projectDefault: IProject = {
   clientId: "",
+  clientName: "",
   cost: 0,
   createdAt: "",
   createdBy: "",
