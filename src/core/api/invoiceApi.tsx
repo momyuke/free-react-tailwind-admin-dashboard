@@ -12,7 +12,7 @@ const INVOICE = `${APP_PATH_API}/invoice`;
 //   perPage,
 // }: PaginationRequest): Promise<PaginationResponse<IProject>> => {
 //   const result = await axiosApi.get(
-//     `${PROJECT}/list?page=${page}&limit=${perPage}`
+//     `${PROJECT}/list?page=${page}&per_page=${perPage}`
 //   );
 //   const response: ApiResponse<PaginationResponse<IProject>> = result.data;
 //   return response.data;

@@ -12,7 +12,7 @@ export const getClientApi = async ({
   perPage = 10,
 }: PaginationRequest): Promise<PaginationResponse<Client>> => {
   const result = await axiosApi.get(
-    `${CLIENT_PATH_API}/list?page=${page}&limit=${perPage}`
+    `${CLIENT_PATH_API}/list?page=${page}&per_page=${perPage}`
   );
   const response: ApiResponse<PaginationResponse<Client>> =
     result.data as ApiResponse<PaginationResponse<Client>>;

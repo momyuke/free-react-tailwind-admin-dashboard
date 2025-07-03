@@ -14,7 +14,7 @@ export const getAccountsApi = async ({
   perPage,
 }: PaginationRequest): Promise<PaginationResponse<User>> => {
   const result = await axiosApi.get(
-    `${ACCOUNT}/list?page=${page}&limit=${perPage}`
+    `${ACCOUNT}/list?page=${page}&per_page=${perPage}`
   );
   const response: ApiResponse<PaginationResponse<User>> = result.data;
   return response.data;

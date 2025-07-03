@@ -1,10 +1,10 @@
 import { axiosApi } from "@/core/api";
 import {
-    ApiResponse,
-    APP_PATH_API,
-    IProject,
-    PaginationRequest,
-    PaginationResponse
+  ApiResponse,
+  APP_PATH_API,
+  IProject,
+  PaginationRequest,
+  PaginationResponse
 } from "@/core/domain";
 
 const PROJECT = `${APP_PATH_API}/project`;
@@ -14,7 +14,7 @@ export const getProjectsApi = async ({
   perPage,
 }: PaginationRequest): Promise<PaginationResponse<IProject>> => {
   const result = await axiosApi.get(
-    `${PROJECT}/list?page=${page}&limit=${perPage}`
+    `${PROJECT}/list?page=${page}&per_page=${perPage}`
   );
   const response: ApiResponse<PaginationResponse<IProject>> = result.data;
   return response.data;
