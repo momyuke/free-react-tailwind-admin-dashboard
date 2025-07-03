@@ -5,6 +5,7 @@ import { LoadingModal } from "@/components/modal";
 import { LoadingKeys, ModalKeys } from "@/core/domain";
 
 import { AddButton, AddOrEditProjectModal, DeleteProjectModal } from "@/pages/Project/Components";
+import { CreateInvoiceModal } from "@/pages/Project/Components/Modals";
 import { TableProject } from "@/pages/Project/Components/TableProject";
 
 export default function Project() {
@@ -24,6 +25,7 @@ export default function Project() {
       <AddOrEditProjectModal type={ModalKeys.ADD_PROJECT} />
       <AddOrEditProjectModal type={ModalKeys.UPDATE_PROJECT} />
       <DeleteProjectModal />
+      <CreateInvoiceModal />
       <LoadingModal
         loadingKey={LoadingKeys.LOADING_CUD_PROJECT}
         isAbleToEscape={false}

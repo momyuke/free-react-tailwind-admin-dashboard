@@ -17,16 +17,20 @@ type GenericFormProps<T> = {
   inputs?: IInput<T>[];
   onSubmit: FormEventHandler | undefined;
   wordingButton?: string;
+  classNames?: string;
+  isOverflow?: boolean
 };
 
 export function GenericForm<T>({
   data,
   inputs,
   onSubmit,
+  classNames,
+  isOverflow = true,
   wordingButton = 'Submit'
 }: GenericFormProps<T>) {
   return (
-    <div className="rounded-xl max-w-full overflow-x-auto">
+    <div className={`rounded-xl max-w-full ${isOverflow && 'overflow-x-auto'}  ${classNames}`}>
       <form onSubmit={onSubmit} className="flex flex-col gap-5 mt-10">
         {inputs?.map((input) => {
         const defaultPlaceholder = input.type === 'number' ? '1234' : 'Input the value here';

@@ -36,6 +36,11 @@ export const TableProject = () => {
     openModal(ModalKeys.UPDATE_PROJECT);
   }, []);
 
+  const onCreateInvoice = useCallback((project: IProject) => {
+    selectProject(project);
+    openModal(ModalKeys.ADD_INVOICE);
+  }, []);
+
   const onChangeStatus = (id: string) => {
     setStatusActiveProject(id);
   };
@@ -74,7 +79,7 @@ export const TableProject = () => {
                   <ActionButton<IProject>
                     data={data}
                     showUpdateButton
-                    onUpdate={onUpdate}
+                    onUpdate={onCreateInvoice}
                     disabledUpdateButton={!isInvoice}
                     updateWordingButton="Create Invoice"
                   />

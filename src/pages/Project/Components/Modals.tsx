@@ -1,3 +1,4 @@
+import DatePicker from "@/components/form/date-picker";
 import { GenericForm, IInput } from "@/components/form/GenericForm";
 import Select, { SelectOption } from "@/components/form/Select";
 import { GeneralModal } from "@/components/modal";
@@ -5,13 +6,13 @@ import Button from "@/components/ui/button/Button";
 import {
   EProjectStatus,
   EProjectType,
+  IInvoice,
+  invoiceDefault,
   IProject,
   ModalKeys,
-  projectDefault
+  projectDefault,
 } from "@/core/domain";
-import {
-  closeModal
-} from "@/core/services";
+import { closeModal, createInvoice } from "@/core/services";
 import {
   createProject,
   deleteProject,
@@ -78,7 +79,6 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
               <Select
                 name="status"
                 options={optionSelectStatus}
-                
                 defaultValue={selectedProject?.status}
                 onChange={() => ""}
               />
@@ -103,7 +103,7 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
           return {
             key,
             label: camelToReadable(key),
-            render: <SelectClient defaultValue={selectedProject?.clientId}/>,
+            render: <SelectClient defaultValue={selectedProject?.clientId} />,
           };
 
         default:
@@ -129,6 +129,71 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
         inputs={inputs}
         data={selectedProject}
         wordingButton={wordingButtonSubmit}
+      />
+    </GeneralModal>
+  );
+};
+
+export const CreateInvoiceModal = () => {
+  const includedField = ["dueDate", "description"];
+  const { selectedProject } = useAppStore();
+  const onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget ?? undefined);
+    const invoice: IInvoice = getTypedFormData<IInvoice>(data);
+    invoice.projectId = selectedProject?.id;
+    return createInvoice(invoice);
+  }, []);
+
+  const onClose = () => {
+    removeSelectedProject();
+  };
+
+  const inputs = Object.entries(invoiceDefault)
+    .filter(([key]) => includedField.includes(key))
+    .map(([key, value]) => {
+      switch (key) {
+        case "dueDate":
+          return {
+            key: key,
+            label: camelToReadable(key),
+            type: typeof value,
+            render: (
+              <DatePicker
+                name="dueDate"
+                id="date-picker-due-date"
+                placeholder="Select a date"
+                onChange={() => ""}
+              />
+            ),
+          } as IInput<IInvoice>;
+
+        default:
+          return {
+            key: key,
+            label: camelToReadable(key),
+            type: typeof value,
+          } as IInput<IInvoice>;
+      }
+    }) as unknown as IInput<IInvoice>[];
+
+  return (
+    <GeneralModal
+      modalKey={ModalKeys.ADD_INVOICE}
+      onClose={onClose}
+      showCloseButton
+      isAbleToEscape
+    >
+      <p>Create Invoice</p>
+
+      <div className="mt-10">
+        <p>Project ID: {selectedProject?.id}</p>
+      </div>
+      <GenericForm<IInvoice>
+        onSubmit={onSubmit}
+        isOverflow={false}
+        inputs={inputs}
+        data={selectedProject}
       />
     </GeneralModal>
   );

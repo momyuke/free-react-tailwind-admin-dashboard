@@ -20,7 +20,7 @@ export const GeneralModal = ({
   modalKey,
   children,
   showCloseButton = false,
-  className = "max-w-[700px] p-6 lg:p-10 m-10",
+  className,
   childClassName,
   isAbleToEscape = true,
   onClose,
@@ -34,7 +34,7 @@ export const GeneralModal = ({
 
   return (
     <Modal
-      className={`dark:text-white ${className}`}
+      className={`dark:text-white max-w-[700px] p-6 lg:p-10 m-10 ${className}`}
       childClassname={childClassName}
       showCloseButton={showCloseButton}
       isOpen={isKeyOpen}

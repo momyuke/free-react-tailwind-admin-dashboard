@@ -1,11 +1,13 @@
 import Button from "@/components/ui/button/Button";
 import { ModalKeys } from "@/core/domain";
 import { openModal } from "@/core/services";
+import { removeSelectedProject } from "@/core/services/projectServices";
 import { BoxIcon } from "@/icons";
 import { useCallback } from "react";
 
 export const AddButton = () => {
   const onClick = useCallback(() => {
+    removeSelectedProject();   
     openModal(ModalKeys.ADD_PROJECT);
   }, []);
   return (
