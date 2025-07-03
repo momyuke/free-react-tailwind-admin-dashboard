@@ -7,6 +7,10 @@ interface ActionButtonProps<T> {
   onUpdate?: (data: T) => void;
   showUpdateButton?: boolean;
   showDeleteButton?: boolean;
+  disabledUpdateButton?: boolean;
+  disabledDeleteButton?: boolean;
+  updateWordingButton?: string;
+  deleteWordingButton?: string;
 }
 
 export function ActionButton<T>({
@@ -15,6 +19,10 @@ export function ActionButton<T>({
   onUpdate,
   showDeleteButton = false,
   showUpdateButton = false,
+  updateWordingButton = 'Update',
+  deleteWordingButton = 'Delete',
+  disabledDeleteButton = false,
+  disabledUpdateButton = false,
 }: ActionButtonProps<T>) {
   const onClickDelete = useCallback(() => {
     if (onDelete) {
@@ -35,8 +43,9 @@ export function ActionButton<T>({
           useVariant={false}
           onClick={onClickUpdate}
           className="bg-green-500 text-white"
+          disabled={disabledUpdateButton}
         >
-          Update
+          {updateWordingButton}
         </Button>
       )}
       {showDeleteButton && (
@@ -44,8 +53,9 @@ export function ActionButton<T>({
           onClick={onClickDelete}
           useVariant={false}
           className="bg-pink-500 text-white"
+          disabled={disabledDeleteButton}
         >
-          Delete
+          {deleteWordingButton}
         </Button>
       )}
     </div>

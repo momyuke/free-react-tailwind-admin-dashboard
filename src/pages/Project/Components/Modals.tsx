@@ -38,7 +38,6 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const data = new FormData(e.currentTarget ?? undefined);
-      console.log(data.get("id"));
       const project: IProject = getTypedFormData<IProject>(data);
       if (isAdd) {
         return createProject(project);
@@ -106,7 +105,7 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
             label: camelToReadable(key),
             render: <SelectClient defaultValue={selectedProject?.clientId}/>,
           };
-          
+
         default:
           return {
             key: key,

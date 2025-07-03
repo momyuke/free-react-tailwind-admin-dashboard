@@ -4,6 +4,7 @@ import { ActionButton } from "@/components/ui/button/ActionButton";
 import { Column, GenericTable } from "@/components/ui/table/GenericTable";
 import { Pagination } from "@/components/ui/table/Pagination";
 import {
+  EProjectStatus,
   IProject,
   LoadingKeys,
   ModalKeys,
@@ -12,7 +13,11 @@ import {
 } from "@/core/domain";
 import { useFetchDispatch } from "@/core/hooks/useFetchDispatch";
 import { openModal } from "@/core/services";
-import { getProjects, selectProject, setStatusActiveProject } from "@/core/services/projectServices";
+import {
+  getProjects,
+  selectProject,
+  setStatusActiveProject,
+} from "@/core/services/projectServices";
 import { useAppStore } from "@/core/stores/appStore";
 import { camelToReadable } from "@/core/utils";
 import { useCallback, useMemo } from "react";
@@ -38,6 +43,7 @@ export const TableProject = () => {
   const columns: Column<IProject>[] = useMemo(() => {
     return Object.keys({
       ...projectDefault,
+      ...{ invoice: "" },
       ...{ action: "" },
     })
       .filter((e) => !excludeField.includes(e))
@@ -58,6 +64,24 @@ export const TableProject = () => {
               ),
             } as unknown as Column<IProject>;
 
+          case "invoice":
+            return {
+              key,
+              label: camelToReadable(key),
+              render: (_: unknown, data: IProject) => {
+                const isInvoice = data.status === EProjectStatus.INVOICING;
+                return (
+                  <ActionButton<IProject>
+                    data={data}
+                    showUpdateButton
+                    onUpdate={onUpdate}
+                    disabledUpdateButton={!isInvoice}
+                    updateWordingButton="Create Invoice"
+                  />
+                );
+              },
+            } as unknown as Column<IProject>;
+
           case "isActive":
             return {
               key,
@@ -71,9 +95,8 @@ export const TableProject = () => {
                   />
                 );
               },
-            } ;
+            };
 
-          
           default:
             return {
               key,
