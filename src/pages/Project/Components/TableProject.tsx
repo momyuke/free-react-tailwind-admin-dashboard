@@ -21,7 +21,7 @@ import {
 import { useAppStore } from "@/core/stores/appStore";
 import { camelToReadable, formatCurrency } from "@/core/utils";
 import { useCallback, useMemo } from "react";
-const excludeField = ["id", "createdAt", "clientId", "createdBy"];
+const excludeField = ["id", "createdAt", "clientId", "createdBy", "invoiceId"];
 
 export const TableProject = () => {
   const { projects, isOpen } = useAppStore();
@@ -74,6 +74,9 @@ export const TableProject = () => {
               key,
               label: camelToReadable(key),
               render: (_: unknown, data: IProject) => {
+                if (data.invoiceId) {
+                  return
+                }
                 const isInvoice = data.status === EProjectStatus.INVOICING;
                 return (
                   <ActionButton<IProject>

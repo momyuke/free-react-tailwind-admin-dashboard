@@ -6,6 +6,7 @@ import { createModalStore } from "@/core/stores/modalStore";
 import { createPaginationStore } from "@/core/stores/paginationStore";
 import { createProjectStore } from "@/core/stores/projectStore";
 import { create } from "zustand";
+import { createInvoiceStore } from "./invoiceStore";
 
 export const useAppStore = create<AppStoreState>(() => ({
   ...createAuthStore(),
@@ -14,4 +15,5 @@ export const useAppStore = create<AppStoreState>(() => ({
   ...createClientStore(),
   ...createPaginationStore(),
   ...createProjectStore(),
+  ...createInvoiceStore(),
 }));

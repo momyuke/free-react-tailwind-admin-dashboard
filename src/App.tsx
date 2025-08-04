@@ -13,7 +13,9 @@ import BarChart from "./pages/Charts/BarChart";
 import LineChart from "./pages/Charts/LineChart";
 import Home from "./pages/Dashboard/Home";
 import FormElements from "./pages/Forms/FormElements";
+import Invoice from "./pages/Invoice/Invoices";
 import NotFound from "./pages/OtherPage/NotFound";
+import Project from "./pages/Project/Project";
 import BasicTables from "./pages/Tables/BasicTables";
 import Alerts from "./pages/UiElements/Alerts";
 import Avatars from "./pages/UiElements/Avatars";
@@ -22,7 +24,6 @@ import Buttons from "./pages/UiElements/Buttons";
 import Images from "./pages/UiElements/Images";
 import Videos from "./pages/UiElements/Videos";
 import UserProfiles from "./pages/UserProfiles";
-import Project from "./pages/Project/Project";
 
 export default function App() {
   return (
@@ -49,6 +50,7 @@ export default function App() {
               <Route path="/project" element={<Project />} />
               <Route path="/client" element={<Client />} />
               <Route path="/accounts" element={<Account />} />
+              <Route path="/invoice" element={<Invoice />} />
 
               {/* Ui Elements */}
               <Route path="/alerts" element={<Alerts />} />

@@ -1,37 +1,42 @@
-import { createInvoiceApi } from "@/core/api/invoiceApi";
+import { createInvoiceApi, downloadPdfInvoiceApi, editItemForInvoiceApi, getInvoicesApi } from "@/core/api/invoiceApi";
 import {
-    GENERAL_ERROR_MESSAGE,
-    IInvoice,
-    LoadingKeys,
-    ModalKeys
+  GENERAL_ERROR_MESSAGE,
+  IInvoice,
+  IInvoiceItem,
+  LoadingKeys,
+  ModalKeys,
+  PaginationKeys,
+  PaginationRequest
 } from "@/core/domain";
 import {
-    closeModal,
-    openModal,
-    setMessage,
+  closeModal,
+  openModal,
+  setMessage,
 } from "@/core/services/modalServices";
+import { useAppStore } from "../stores/appStore";
+import { setPagination, SetPaginationProps } from "./paginationServices";
 
-// export const getProjects = async ({ page, perPage }: PaginationRequest) => {
-//   const { setState } = useAppStore;
-//   openModal(LoadingKeys.LOADING_PROJECT);
-//   try {
-//     const response = await getProjectsApi({ page, perPage });
-//     const pagination: SetPaginationProps = {
-//       key: PaginationKeys.PROJECT,
-//       perPage: perPage || 10,
-//       page,
-//       count: response.totalCount,
-//     };
-//     setPagination(pagination);
-//     setState(() => ({ projects: response.items }));
-//   } catch (e) {
-//     setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
-//     openModal(ModalKeys.GENERAL_MESSAGE);
-//     console.info(e);
-//   } finally {
-//     closeModal(LoadingKeys.LOADING_PROJECT);
-//   }
-// };
+export const getInvoices = async ({ page, perPage }: PaginationRequest) => {
+  const { setState } = useAppStore;
+  openModal(LoadingKeys.LOADING_INVOICE);
+  try {
+    const response = await getInvoicesApi({ page, perPage });
+    const pagination: SetPaginationProps = {
+      key: PaginationKeys.INVOICE,
+      perPage: perPage || 10,
+      page,
+      count: response.totalCount,
+    };
+    setPagination(pagination);
+    setState(() => ({ invoices: response.items }));
+  } catch (e) {
+    setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
+    openModal(ModalKeys.GENERAL_MESSAGE);
+    console.info(e);
+  } finally {
+    closeModal(LoadingKeys.LOADING_INVOICE);
+  }
+};
 
 // const getProjectsWithPagination = () => {
 //   const { getState } = useAppStore;
@@ -58,6 +63,71 @@ export const createInvoice = async (invoice: IInvoice) => {
     closeModal(ModalKeys.ADD_PROJECT);
   }
 };
+
+export const selectInvoice = (invoice: IInvoice) => {
+  const { setState } = useAppStore;
+  setState(() => ({ selectedInvoice: invoice }))
+}
+
+export const editItemForInvoice = async (invoiceItem: IInvoiceItem) => {
+  openModal(LoadingKeys.LOADING_CUD_INVOICE);
+  try {
+
+    const response = await editItemForInvoiceApi(invoiceItem)
+    setMessage(
+      ModalKeys.GENERAL_MESSAGE,
+      response.message ?? "Success Add Invoice Data"
+    );
+    openModal(ModalKeys.GENERAL_MESSAGE);
+  } catch (e) {
+    console.info(e);
+    setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
+    openModal(ModalKeys.GENERAL_MESSAGE);
+  } finally {
+    closeModal(LoadingKeys.LOADING_CUD_INVOICE);
+    closeModal(ModalKeys.ADD_PROJECT);
+  }
+}
+
+export const downloadPdf = async (invoiceId: string) => {
+  openModal(LoadingKeys.LOADING_CUD_INVOICE);
+  try {
+
+    const base64 = await downloadPdfInvoiceApi(invoiceId)
+
+    // Convert base64 to a Blob
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length)
+      .fill()
+      .map((_, i) => byteCharacters.charCodeAt(i));
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: "application/pdf" });
+
+    // Create a link and trigger the download
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "document.pdf";
+    document.body.appendChild(link);
+    link.click();
+
+    // Cleanup
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+
+    setMessage(
+      ModalKeys.GENERAL_MESSAGE,
+      "Success Download Invoice"
+    );
+    openModal(ModalKeys.GENERAL_MESSAGE);
+  } catch (e) {
+    console.info(e);
+    setMessage(ModalKeys.GENERAL_MESSAGE, GENERAL_ERROR_MESSAGE);
+    openModal(ModalKeys.GENERAL_MESSAGE);
+  } finally {
+    closeModal(LoadingKeys.LOADING_CUD_INVOICE);
+    closeModal(ModalKeys.ADD_PROJECT);
+  }
+}
 
 // export const editProject = async (project: IProject) => {
 //   openModal(LoadingKeys.LOADING_CUD_PROJECT);

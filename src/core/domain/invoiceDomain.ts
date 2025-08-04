@@ -16,7 +16,7 @@ export interface IInvoice {
 export const invoiceDefault: IInvoice = {
   createdAt: '',
   createdBy: '',
-  description: '',
+  description: '',  
   dueDate: '',
   id: '',
   invoiceNo: '',
@@ -25,4 +25,18 @@ export const invoiceDefault: IInvoice = {
   projectId: '',
   restOfBill: 0,
   totalBill: 0,
+}
+
+export interface IInvoiceItem {
+  id?: string,
+  invoiceId?: string,
+  item?: string,
+  price?: number
+}
+
+export const invoiceItemDefault: IInvoiceItem = {
+  id : '',
+  invoiceId: '',
+  item: '',
+  price: 0
 }

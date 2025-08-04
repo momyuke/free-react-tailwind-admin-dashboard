@@ -1,4 +1,3 @@
-import DatePicker from "@/components/form/date-picker";
 import { GenericForm, IInput } from "@/components/form/GenericForm";
 import Input from "@/components/form/input/InputField";
 import Select, { SelectOption } from "@/components/form/Select";
@@ -7,13 +6,13 @@ import Button from "@/components/ui/button/Button";
 import {
   EProjectStatus,
   EProjectType,
-  IInvoice,
-  invoiceDefault,
+  IInvoiceItem,
+  invoiceItemDefault,
   IProject,
   ModalKeys,
-  projectDefault,
+  projectDefault
 } from "@/core/domain";
-import { closeModal, createInvoice } from "@/core/services";
+import { closeModal, editItemForInvoice } from "@/core/services";
 import {
   createProject,
   deleteProject,
@@ -57,7 +56,7 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
       const project: IProject = getTypedFormData<IProject>(data);
       if (isAdd) {
         return createProject(project);
-      } 
+      }
       project.id = selectedProject?.id ?? "";
       return editProject(project);
     },
@@ -180,69 +179,79 @@ export const AddOrEditProjectModal = ({ type }: AddOrEditProjectModalProps) => {
   );
 };
 
-export const CreateInvoiceModal = () => {
-  const includedField = ["dueDate", "description"];
-  const { selectedProject } = useAppStore();
+export const AddItemInvoiceModal = () => {
+  const { selectedInvoice } = useAppStore();
+  const excludedField = ['id', 'invoiceId']
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const data = new FormData(e.currentTarget ?? undefined);
-      const invoice: IInvoice = getTypedFormData<IInvoice>(data);
-      invoice.projectId = selectedProject?.id;
-      return createInvoice(invoice);
+      let cost = data.get("price") as string;
+      cost = cost.split("Rp. ")[1];
+      data.set("price", String(parseCurrency(cost)));
+      const invoiceItem: IInvoiceItem = getTypedFormData<IInvoiceItem>(data);
+      console.log(selectedInvoice)
+      invoiceItem.invoiceId = selectedInvoice?.id
+      return editItemForInvoice(invoiceItem);
     },
-    [selectedProject?.id]
+    [selectedInvoice?.id]
   );
 
   const onClose = () => {
     removeSelectedProject();
   };
 
-  const inputs = Object.entries(invoiceDefault)
-    .filter(([key]) => includedField.includes(key))
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/[^\d]/g, ""); // Remove non-digit
+    const numericValue = parseInt(rawValue || "0", 10);
+    const formatted = formatCurrency(numericValue);
+    e.target.value = "Rp. " + formatted;
+  };
+  
+
+  const inputs = Object.entries(invoiceItemDefault)
+    .filter(([key]) => !excludedField.includes(key))
     .map(([key, value]) => {
       switch (key) {
-        case "dueDate":
+        case "price":
           return {
-            key: key,
+            key,
             label: camelToReadable(key),
-            type: typeof value,
             render: (
-              <DatePicker
-                name="dueDate"
-                id="date-picker-due-date"
-                placeholder="Select a date"
-                onChange={() => ""}
-              />
+              <>
+                <Input
+                  onChange={handleChange}
+                  name={String(key)}
+                  defaultValue={
+                    "Rp. " + formatCurrency(0)
+                  }
+                  placeholder={"0"}
+                  required
+                />
+              </>
             ),
-          } as IInput<IInvoice>;
-
+          };
         default:
           return {
             key: key,
             label: camelToReadable(key),
             type: typeof value,
-          } as IInput<IInvoice>;
+          } as IInput<IInvoiceItem>;
       }
-    }) as unknown as IInput<IInvoice>[];
+    }) as unknown as IInput<IInvoiceItem>[];
 
   return (
     <GeneralModal
-      modalKey={ModalKeys.ADD_INVOICE}
+      modalKey={ModalKeys.ADD_ITEM_INVOICE}
       onClose={onClose}
       showCloseButton
       isAbleToEscape
     >
-      <p>Create Invoice</p>
-
-      <div className="mt-10">
-        <p>Project ID: {selectedProject?.id}</p>
-      </div>
-      <GenericForm<IInvoice>
+      <p>Add Item for Invoice {selectedInvoice?.id}</p>
+      <GenericForm<IInvoiceItem>
         onSubmit={onSubmit}
         isOverflow={false}
         inputs={inputs}
-        data={selectedProject}
       />
     </GeneralModal>
   );

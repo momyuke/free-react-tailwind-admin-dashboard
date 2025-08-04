@@ -10,6 +10,7 @@ export interface IProject {
   status: string;
   type: string;
   clientName?: string;
+  invoiceId?: string;
 }
 
 export const projectDefault: IProject = {
@@ -24,6 +25,7 @@ export const projectDefault: IProject = {
   mandays: 0,
   status: "",
   type: "",
+  invoiceId: "",
 };
 
 export enum EProjectType {

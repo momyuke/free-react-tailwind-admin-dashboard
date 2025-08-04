@@ -3,6 +3,7 @@
 import { Client } from "@/core/domain/clientDomain";
 import { IProject } from "@/core/domain/projectDomain";
 import { User } from "@/core/domain/userDomain";
+import { IInvoice } from "./invoiceDomain";
 
 export interface AuthStoreState {
   user: User;
@@ -16,6 +17,12 @@ export interface ModalStoreState {
 export interface AccountStoreState {
   accounts: User[];
   selectedAccount?: User;
+}
+
+
+export interface InvoiceStoreState {
+  invoices: IInvoice[],
+  selectedInvoice?: IInvoice
 }
 
 export interface ClientStoreState {
@@ -37,4 +44,4 @@ export type AppStoreState = ModalStoreState &
   AuthStoreState &
   ClientStoreState &
   PaginationStoreState &
-  ProjectStoreState;
+  ProjectStoreState & InvoiceStoreState;
